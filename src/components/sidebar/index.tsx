@@ -10,7 +10,7 @@ export function Sidebar() {
   return (
     <div className="pb-12 h-screen min-w-72 w-72 border">
       <div className="px-6 py-4">
-        <img src={logo} alt="Pointer Logo" />
+        <img src={logo} alt="Pointer Logo" className="h-[30px]" />
       </div>
       <div>
         <div className="space-y-1 px-4 mt-4 pb-4 border-b">

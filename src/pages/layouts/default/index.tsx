@@ -29,11 +29,13 @@ export const DefaultLayout = () => {
   return (
     <main className="flex">
       <Sidebar />
-      <div className="px-4 py-6 w-full">
-        <h1 className="text-2xl font-semibold tracking-tight mb-4">
-          {pageTitle}
-        </h1>
-        <Outlet />
+      <div className="w-full">
+        <div className="pt-8 pb-2 px-6">
+          <h1 className="text-2xl font-semibold tracking-tight">{pageTitle}</h1>
+        </div>
+        <div className="p-6">
+          <Outlet />
+        </div>
       </div>
     </main>
   );
