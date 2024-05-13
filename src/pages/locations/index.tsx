@@ -4,8 +4,15 @@ import { locationSchema } from "./schema";
 import { useEffect, useState } from "react";
 import { LocationDTO, LocationService } from "@/services/location.service";
 import { DataTableRowActions } from "@/components/table/components/data-table-row-actions";
-import { ColumnDef } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { Table } from "@/components";
+import { usePagination } from "@/hooks";
+import { MetaPagination } from "@/types/pagination";
+import { categorySchema } from "../categories/schema";
 
 export const columns: ColumnDef<LocationDTO>[] = [
   {
@@ -55,17 +62,39 @@ export const columns: ColumnDef<LocationDTO>[] = [
 ];
 
 export function Locations() {
+  const { page, limit, pagination, onPaginationChange } = usePagination();
+
   const [locations, setLocations] = useState<LocationDTO[]>([]);
+  const [meta, setMeta] = useState<MetaPagination>({
+    page: 0,
+    limit: 0,
+    total: 0,
+    totalPages: 0,
+  });
+
+  const table = useReactTable({
+    columns,
+    data: locations,
+    getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
+    state: { pagination },
+    onPaginationChange,
+    pageCount: meta.totalPages,
+  });
+
+  const getLocations = async () => {
+    const data = await LocationService.getAll({
+      page: page + 1,
+      limit,
+    });
+
+    setLocations(z.array(locationSchema).parse(data.data));
+    setMeta(data.meta);
+  };
 
   useEffect(() => {
-    const getLocations = async () => {
-      const data = await LocationService.getAll();
-
-      setLocations(z.array(locationSchema).parse(data));
-    };
-
     getLocations();
-  }, []);
+  }, [page, limit]);
 
-  return <Table data={locations} columns={columns} />;
+  return <Table table={table} />;
 }

@@ -7,37 +7,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  flexRender,
-  getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { Table as ReactTable } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
 import { DataTablePagination } from "./components/data-table-pagination";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 
-interface TableProps {
-  data: any;
-  columns: any;
+interface TableProps<TData> {
+  table: ReactTable<TData>;
 }
 
-export function Table({ data, columns }: TableProps) {
-  const table = useReactTable({
-    data,
-    columns,
-    enableRowSelection: false,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-  });
-
+export function Table<TData>({ table }: TableProps<TData>) {
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
@@ -92,10 +71,7 @@ export function Table({ data, columns }: TableProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell className="h-24 text-center">
                   Sem resultados.
                 </TableCell>
               </TableRow>
