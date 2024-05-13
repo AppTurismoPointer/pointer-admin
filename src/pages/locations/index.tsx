@@ -12,7 +12,6 @@ import {
 import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
-import { categorySchema } from "../categories/schema";
 
 export const columns: ColumnDef<LocationDTO>[] = [
   {
@@ -96,5 +95,5 @@ export function Locations() {
     getLocations();
   }, [page, limit]);
 
-  return <Table table={table} />;
+  return <Table table={table} columnsLength={columns.length} />;
 }

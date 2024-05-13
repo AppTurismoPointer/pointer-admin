@@ -71,5 +71,5 @@ export function Categories() {
     getCategories();
   }, [page, limit]);
 
-  return <Table table={table} />;
+  return <Table table={table} columnsLength={columns.length} />;
 }

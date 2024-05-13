@@ -14,9 +14,10 @@ import { DataTableToolbar } from "./components/data-table-toolbar";
 
 interface TableProps<TData> {
   table: ReactTable<TData>;
+  columnsLength: number;
 }
 
-export function Table<TData>({ table }: TableProps<TData>) {
+export function Table<TData>({ table, columnsLength }: TableProps<TData>) {
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
@@ -71,7 +72,7 @@ export function Table<TData>({ table }: TableProps<TData>) {
               ))
             ) : (
               <TableRow>
-                <TableCell className="h-24 text-center">
+                <TableCell colSpan={columnsLength} className="h-24 text-center">
                   Sem resultados.
                 </TableCell>
               </TableRow>
