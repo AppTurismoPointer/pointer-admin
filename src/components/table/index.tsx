@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Table as UiTable,
   TableBody,
@@ -6,11 +5,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+  DataTablePagination,
+  DataTableToolbar,
+} from "./components";
 import { Table as ReactTable } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
-import { DataTablePagination } from "./components/data-table-pagination";
-import { DataTableToolbar } from "./components/data-table-toolbar";
 import { Button } from "../ui/button";
 
 interface TableProps<TData> {
