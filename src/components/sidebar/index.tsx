@@ -13,7 +13,7 @@ export function Sidebar() {
   const active = window.location.pathname;
 
   return (
-    <div className="pb-12 h-screen min-w-72 w-72 bg-primary">
+    <nav className="sm:block hidden pb-12 h-screen min-w-72 w-72 bg-primary">
       <div className="px-8 py-6 border-sb border-secondarys/30">
         <img src={logo} alt="Pointer Logo" className="h-[30px]" />
       </div>
@@ -27,7 +27,7 @@ export function Sidebar() {
           <NavLink key={item.path} active={active} {...item} />
         ))}
       </div>
-    </div>
+    </nav>
   );
 }
 

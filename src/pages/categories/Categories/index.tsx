@@ -12,31 +12,11 @@ import {
 import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
-
-const columns: ColumnDef<CategoryDTO>[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
-  },
-  {
-    accessorKey: "name",
-    header: "Nome",
-    cell: ({ row }) => {
-      return (
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("name")}
-        </span>
-      );
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
-];
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function Categories() {
+  const navigate = useNavigate();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
   const [categories, setCategories] = useState<CategoryDTO[]>([]);
@@ -46,6 +26,35 @@ export function Categories() {
     total: 0,
     totalPages: 0,
   });
+
+  const columns: ColumnDef<CategoryDTO>[] = [
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+    },
+    {
+      accessorKey: "name",
+      header: "Nome",
+      cell: ({ row }) => {
+        return (
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("name")}
+          </span>
+        );
+      },
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => (
+        <DataTableRowActions
+          row={row}
+          onEdit={(id: string) => navigate(`/categories/${id}`)}
+          onDelete={handleDelete}
+        />
+      ),
+    },
+  ];
 
   const table = useReactTable({
     columns,
@@ -67,9 +76,26 @@ export function Categories() {
     setMeta(data.meta);
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await CategoryService.remove(id);
+      toast.success("Categoria deletada com sucesso!");
+
+      getCategories();
+    } catch (error) {
+      toast.error((error as string) ?? "Ocorreu um erro ao deletar.");
+    }
+  };
+
   useEffect(() => {
     getCategories();
   }, [page, limit]);
 
-  return <Table table={table} columnsLength={columns.length} />;
+  return (
+    <Table
+      table={table}
+      columnsLength={columns.length}
+      onCreate={() => navigate("/categories/add")}
+    />
+  );
 }

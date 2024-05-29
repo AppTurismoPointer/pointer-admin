@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
 
@@ -13,10 +14,14 @@ import { Button } from "@/components/ui/button";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export function DataTableRowActions<TData>({
   row,
+  onEdit,
+  onDelete,
 }: DataTableRowActionsProps<TData>) {
   return (
     <DropdownMenu>
@@ -30,13 +35,20 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem onClick={() => console.log(row.id)}>
+        <DropdownMenuItem
+          // @ts-expect-error
+          onClick={() => onEdit(row.original?.id)}
+          className="cursor-pointer"
+        >
           Editar
         </DropdownMenuItem>
-        <DropdownMenuItem>Desativar</DropdownMenuItem>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          // @ts-expect-error
+          onClick={() => onDelete(row.original?.id)}
+          className="cursor-pointer"
+        >
           Deletar
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>

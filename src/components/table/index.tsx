@@ -15,20 +15,20 @@ import { Button } from "../ui/button";
 interface TableProps<TData> {
   table: ReactTable<TData>;
   columnsLength: number;
-  handleCreate?: () => void;
+  onCreate?: () => void;
 }
 
 export function Table<TData>({
   table,
   columnsLength,
-  handleCreate,
+  onCreate,
 }: TableProps<TData>) {
   return (
     <div className="space-y-4">
       <div className="flex gap-4 justify-between items-center">
         <DataTableToolbar table={table} />
 
-        <Button onClick={handleCreate} disabled={!handleCreate}>
+        <Button onClick={onCreate} disabled={!onCreate}>
           Cadastrar
         </Button>
       </div>
