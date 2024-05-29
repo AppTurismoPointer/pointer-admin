@@ -11,16 +11,28 @@ import { Table as ReactTable } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
 import { DataTablePagination } from "./components/data-table-pagination";
 import { DataTableToolbar } from "./components/data-table-toolbar";
+import { Button } from "../ui/button";
 
 interface TableProps<TData> {
   table: ReactTable<TData>;
   columnsLength: number;
+  handleCreate?: () => void;
 }
 
-export function Table<TData>({ table, columnsLength }: TableProps<TData>) {
+export function Table<TData>({
+  table,
+  columnsLength,
+  handleCreate,
+}: TableProps<TData>) {
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <div className="flex gap-4 justify-between items-center">
+        <DataTableToolbar table={table} />
+
+        <Button onClick={handleCreate} disabled={!handleCreate}>
+          Cadastrar
+        </Button>
+      </div>
       <div className="rounded-md border">
         <UiTable>
           <TableHeader>

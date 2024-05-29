@@ -1,6 +1,7 @@
 import { Outlet, useMatches } from "react-router-dom";
 
 import { Sidebar } from "@/components";
+import { Container } from "./styles";
 
 type MatchProps = Omit<ReturnType<typeof useMatches>[number], "handle"> & {
   handle: {
@@ -30,12 +31,14 @@ export const DefaultLayout = () => {
     <main className="flex">
       <Sidebar />
       <div className="w-full">
-        <div className="pt-8 pb-2 px-6">
-          <h1 className="text-2xl font-semibold tracking-tight">{pageTitle}</h1>
+        <div className="py-4 px-6">
+          <h1 className="text-2xl font-medium text-primary tracking-tight">
+            {pageTitle}
+          </h1>
         </div>
-        <div className="p-6">
+        <Container className="p-6">
           <Outlet />
-        </div>
+        </Container>
       </div>
     </main>
   );
