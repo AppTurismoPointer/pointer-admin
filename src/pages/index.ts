@@ -1,3 +1,3 @@
 export * from "./categories";
-export * from "./Spots";
-export * from "./Locations";
+export * from "./spots";
+export * from "./locations";

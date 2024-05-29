@@ -20,7 +20,7 @@ const getAll = ({
   return api.get(`${CATEGORY_DOMAIN}?page=${page}&limit=${limit}`);
 };
 
-const getById = (id: string): Promise<void> => {
+const getById = (id: string): Promise<{ data: CategoryDTO }> => {
   return api.get(`${CATEGORY_DOMAIN}/${id}`);
 };
 
