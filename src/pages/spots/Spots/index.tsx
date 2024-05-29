@@ -103,7 +103,7 @@ export function Spots() {
   const handleDelete = async (id: string) => {
     try {
       await SpotService.remove(id);
-      toast.success("Categoria deletada com sucesso!");
+      toast.success("Ponto deletado com sucesso!");
 
       getSpots();
     } catch (error) {

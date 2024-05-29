@@ -48,7 +48,7 @@ const NavLink = ({ path, active, label, icon: Icon }: NavLinkProps) => {
       focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
       disabled:pointer-events-none disabled:opacity-50 w-full rounded-s-md px-3 py-3
        ${
-         path === active
+         active.includes(path)
            ? "bg-secondary text-primary-foreground"
            : "bg-primary text-primary-foreground hover:bg-secondary/60"
        } `}

@@ -103,7 +103,7 @@ export function Locations() {
   const handleDelete = async (id: string) => {
     try {
       await LocationService.remove(id);
-      toast.success("Categoria deletada com sucesso!");
+      toast.success("Localização deletada com sucesso!");
 
       getLocations();
     } catch (error) {

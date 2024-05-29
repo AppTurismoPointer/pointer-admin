@@ -1,5 +1,12 @@
 import { DefaultLayout } from "@/pages/layouts";
-import { Spots, Categories, CreateCategory, Locations } from "@/pages";
+import {
+  Spots,
+  Categories,
+  CreateCategory,
+  Locations,
+  CreateLocation,
+  CreateSpot,
+} from "@/pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const routes = [
@@ -30,10 +37,26 @@ const routes = [
         },
       },
       {
+        path: "locations/add",
+        element: <CreateLocation />,
+        handle: {
+          title: () => "Cadastrar localização",
+          goBack: "locations",
+        },
+      },
+      {
         path: "spots",
         element: <Spots />,
         handle: {
           title: () => "Pontos",
+        },
+      },
+      {
+        path: "spots/add",
+        element: <CreateSpot />,
+        handle: {
+          title: () => "Cadastrar ponto",
+          goBack: "spots",
         },
       },
     ],

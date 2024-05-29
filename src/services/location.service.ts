@@ -13,9 +13,8 @@ export type LocationDTO = {
 
 export type LocationInput = {
   name: string;
-  preview: string;
-  city: string;
-  state: string;
+  city_id: string;
+  file_id: string;
 };
 
 const getAll = ({
@@ -29,8 +28,8 @@ const getById = (id: string): Promise<{ data: LocationDTO }> => {
   return api.get(`${LOCATION_DOMAIN}/${id}`);
 };
 
-const create = ({ name }: LocationInput): Promise<void> => {
-  return api.post(`${LOCATION_DOMAIN}`, { name });
+const create = ({ name, file_id, city_id }: LocationInput): Promise<void> => {
+  return api.post(`${LOCATION_DOMAIN}`, { name, file_id, city_id });
 };
 
 const update = (id: string, { name }: LocationInput): Promise<void> => {
