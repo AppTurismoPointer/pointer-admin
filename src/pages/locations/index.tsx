@@ -13,7 +13,7 @@ import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
 
-export const columns: ColumnDef<LocationDTO>[] = [
+const columns: ColumnDef<LocationDTO>[] = [
   {
     accessorKey: "id",
     header: "ID",

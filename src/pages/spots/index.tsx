@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { categorySchema } from "./schema";
+import { spotSchema } from "./schema";
 
 import { useEffect, useState } from "react";
-import { CategoryDTO, CategoryService } from "@/services/category.service";
+import { SpotDTO, SpotService } from "@/services/spot.service";
 import { DataTableRowActions } from "@/components/table/components/data-table-row-actions";
 import {
   ColumnDef,
@@ -13,11 +13,13 @@ import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
 
-const columns: ColumnDef<CategoryDTO>[] = [
+const columns: ColumnDef<SpotDTO>[] = [
   {
     accessorKey: "id",
     header: "ID",
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: "name",
@@ -31,15 +33,37 @@ const columns: ColumnDef<CategoryDTO>[] = [
     },
   },
   {
+    accessorKey: "city",
+    header: "Cidade",
+    cell: ({ row }) => {
+      return (
+        <span className="max-w-[500px] truncate font-medium">
+          {row.getValue("city")}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "state",
+    header: "Estado",
+    cell: ({ row }) => {
+      return (
+        <span className="max-w-[500px] truncate font-medium">
+          {row.getValue("state")}
+        </span>
+      );
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
 
-export function Categories() {
+export function Spots() {
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
-  const [categories, setCategories] = useState<CategoryDTO[]>([]);
+  const [spots, setSpots] = useState<SpotDTO[]>([]);
   const [meta, setMeta] = useState<MetaPagination>({
     page: 0,
     limit: 0,
@@ -49,7 +73,7 @@ export function Categories() {
 
   const table = useReactTable({
     columns,
-    data: categories,
+    data: spots,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     state: { pagination },
@@ -57,18 +81,18 @@ export function Categories() {
     pageCount: meta.totalPages,
   });
 
-  const getCategories = async () => {
-    const data = await CategoryService.getAll({
+  const getSpots = async () => {
+    const data = await SpotService.getAll({
       page: page + 1,
       limit,
     });
 
-    setCategories(z.array(categorySchema).parse(data.data));
+    setSpots(z.array(spotSchema).parse(data.data));
     setMeta(data.meta);
   };
 
   useEffect(() => {
-    getCategories();
+    getSpots();
   }, [page, limit]);
 
   return <Table table={table} columnsLength={columns.length} />;

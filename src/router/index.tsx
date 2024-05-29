@@ -1,6 +1,5 @@
-import { Categories } from "@/pages";
 import { DefaultLayout } from "@/pages/layouts";
-import { Locations } from "@/pages/locations";
+import { Spots, Categories, Locations } from "@/pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const routes = [
@@ -19,6 +18,14 @@ const routes = [
       {
         path: "locations",
         element: <Locations />,
+        handle: {
+          title: () => "Localizações",
+          crumb: () => "Localizações",
+        },
+      },
+      {
+        path: "spots",
+        element: <Spots />,
         handle: {
           title: () => "Localizações",
           crumb: () => "Localizações",

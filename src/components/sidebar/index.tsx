@@ -1,4 +1,4 @@
-import { LayoutGrid, MapPin, Users } from "lucide-react";
+import { LayoutGrid, LocateFixed, MapPin, Users } from "lucide-react";
 import { Button } from "../ui/button";
 import logo from "@/assets/logo.svg";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,8 @@ export function Sidebar() {
         <div className="space-y-1 px-4 mt-4 pb-4 border-b">
           {[
             { path: "/categories", label: "Categorias", icon: LayoutGrid },
-            { path: "/locations", label: "Localizações", icon: MapPin },
+            { path: "/locations", label: "Localizações", icon: LocateFixed },
+            { path: "/spots", label: "Pontos", icon: MapPin },
           ].map(({ path, label, icon: Icon }) => (
             <Button
               key={path}
