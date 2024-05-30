@@ -6,6 +6,7 @@ import {
   CreateLocation,
   CreateSpot,
   UpdateLocation,
+  UpdateSpot,
 } from "@/pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -56,6 +57,14 @@ const routes = [
         element: <CreateSpot />,
         handle: {
           title: () => "Cadastrar ponto",
+          goBack: "spots",
+        },
+      },
+      {
+        path: "spots/:id",
+        element: <UpdateSpot />,
+        handle: {
+          title: () => "Atualizar ponto",
           goBack: "spots",
         },
       },

@@ -37,11 +37,29 @@ export function Spots() {
     },
     {
       accessorKey: "name",
-      header: "Nome",
+      header: "Ponto",
+      cell: ({ row }) => {
+        return (
+          <div className="flex items-center gap-2">
+            <img
+              src={row.original.preview}
+              alt={row.getValue("name")}
+              className="w-8 h-8 rounded-full object-cover"
+            />
+            <span className="max-w-[500px] truncate font-medium">
+              {row.getValue("name")}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "category",
+      header: "Categoria",
       cell: ({ row }) => {
         return (
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("name")}
+            {row.getValue("category")}
           </span>
         );
       },

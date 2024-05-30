@@ -1,28 +1,17 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { updateSpotSchema } from "./schema";
-import { SpotDTO, SpotService } from "@/services/spot.service";
+import { SpotByIdDTO, SpotService } from "@/services/spot.service";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { FileService } from "@/services/file.service";
 import { SpotForm, SpotInput } from "../SpotForm";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function UpdateSpot() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [spot, setSpot] = useState<SpotDTO>();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm<SpotInput>({
-    resolver: yupResolver(updateSpotSchema),
-  });
+  const [file, setFile] = useState<File>();
+  const [spot, setSpot] = useState<SpotByIdDTO>();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (payload: SpotInput) => {
     try {
@@ -30,9 +19,9 @@ export function UpdateSpot() {
 
       let fileId = spot?.file?.id;
 
-      if (fileId !== payload?.file_id) {
+      if (file) {
         const { id } = await FileService.create({
-          file: payload.file[0],
+          file,
         });
 
         fileId = id;
@@ -50,18 +39,18 @@ export function UpdateSpot() {
   };
 
   const getSpot = async () => {
+    setLoading(true);
+
     try {
       const { data } = await SpotService.getById(id as string);
 
       setSpot(data);
-      setValue("name", data.name);
-      setValue("state_id", data.state.id);
-      setValue("city_id", data.city.id);
-      setValue("file_id", data.file.id);
     } catch (error) {
       toast.error(
         (error as string) ?? "Ocorreu um erro ao buscar localização."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,13 +59,15 @@ export function UpdateSpot() {
   }, [id]);
 
   return (
-    <SpotForm
-      onSubmit={handleSubmit(onSubmit)}
-      errors={errors}
-      register={register}
-      control={control}
-      watch={watch}
-      setValue={setValue}
-    />
+    <>
+      {!loading && (
+        <SpotForm
+          onSubmit={onSubmit}
+          spot={spot}
+          file={file}
+          setFile={setFile}
+        />
+      )}
+    </>
   );
 }

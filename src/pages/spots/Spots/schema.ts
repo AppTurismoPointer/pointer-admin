@@ -5,6 +5,7 @@ export const spotSchema = z.object({
   name: z.string(),
   preview: z.string(),
   city: z.string(),
+  category: z.string(),
   state: z.string(),
 });
 

@@ -6,6 +6,16 @@ const SPOT_DOMAIN = "spots";
 export type SpotDTO = {
   id: string;
   name: string;
+  preview: string;
+  city: string;
+  state: string;
+  category: string;
+};
+
+export type SpotByIdDTO = {
+  id: string;
+  name: string;
+  preview: string;
   latitude: number;
   longitude: number;
   category: {
@@ -15,10 +25,10 @@ export type SpotDTO = {
   city: {
     id: string;
     name: string;
-  };
-  state: {
-    id: string;
-    name: string;
+    state: {
+      id: string;
+      name: string;
+    };
   };
   file: {
     id: string;
@@ -43,7 +53,7 @@ const getAll = ({
   return api.get(`${SPOT_DOMAIN}?page=${page}&limit=${limit}`);
 };
 
-const getById = (id: string): Promise<{ data: SpotDTO }> => {
+const getById = (id: string): Promise<{ data: SpotByIdDTO }> => {
   return api.get(`${SPOT_DOMAIN}/${id}`);
 };
 
@@ -65,8 +75,18 @@ const create = ({
   });
 };
 
-const update = (id: string, { name }: SpotInput): Promise<void> => {
-  return api.put(`${SPOT_DOMAIN}/${id}`, { name });
+const update = (
+  id: string,
+  { name, city_id, category_id, file_id, latitude, longitude }: SpotInput
+): Promise<void> => {
+  return api.put(`${SPOT_DOMAIN}/${id}`, {
+    name,
+    city_id,
+    category_id,
+    file_id,
+    latitude,
+    longitude,
+  });
 };
 
 const remove = (id: string): Promise<void> => {

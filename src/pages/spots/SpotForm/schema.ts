@@ -1,7 +1,6 @@
-import { fileSchema } from "@/utils";
 import { object, string, number } from "yup";
 
-export const updateSpotSchema = object({
+export const spotSchema = object({
   name: string().required("Nome é obrigatório"),
   state_id: string().required("Cidade é obrigatória"),
   city_id: string().required("Estado é obrigatório"),
@@ -14,5 +13,5 @@ export const updateSpotSchema = object({
     .min(-180, "Latitude inválida")
     .max(180, "Latitude inválida")
     .required("Longitude é obrigatória"),
-  file: fileSchema,
+  preview: string().required("Imagem é obrigatória"),
 });
