@@ -27,10 +27,11 @@ export function Table<TData>({
     <div className="space-y-4">
       <div className="flex gap-4 justify-between items-center">
         <DataTableToolbar table={table} />
-
-        <Button onClick={onCreate} disabled={!onCreate}>
-          Cadastrar
-        </Button>
+        {onCreate && (
+          <Button onClick={onCreate} disabled={!onCreate}>
+            Cadastrar
+          </Button>
+        )}
       </div>
       <div className="rounded-md border">
         <UiTable>
