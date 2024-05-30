@@ -1,29 +1,20 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { createLocationSchema } from "./schema";
 import { LocationService } from "@/services/location.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FileService } from "@/services/file.service";
 import { LocationForm, LocationInput } from "../LocationForm";
+import { useState } from "react";
 
 export function CreateLocation() {
   const navigate = useNavigate();
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm<LocationInput>({
-    resolver: yupResolver(createLocationSchema),
-  });
+  const [file, setFile] = useState<File>();
 
   const onSubmit = async (payload: LocationInput) => {
+    if (!file) return;
+
     try {
       const { id } = await FileService.create({
-        file: payload.file[0],
+        file,
       });
 
       await LocationService.create({
@@ -37,13 +28,5 @@ export function CreateLocation() {
     }
   };
 
-  return (
-    <LocationForm
-      errors={errors}
-      register={register}
-      control={control}
-      watch={watch}
-      onSubmit={handleSubmit(onSubmit)}
-    />
-  );
+  return <LocationForm file={file} setFile={setFile} onSubmit={onSubmit} />;
 }

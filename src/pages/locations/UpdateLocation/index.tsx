@@ -1,7 +1,4 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { updateLocationSchema } from "./schema";
-import { LocationDTO, LocationService } from "@/services/location.service";
+import { LocationByIdDTO, LocationService } from "@/services/location.service";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { FileService } from "@/services/file.service";
@@ -12,18 +9,9 @@ export function UpdateLocation() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [location, setLocation] = useState<LocationDTO>();
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    formState: { errors },
-    setValue,
-  } = useForm<LocationInput>({
-    resolver: yupResolver(updateLocationSchema),
-  });
+  const [file, setFile] = useState<File>();
+  const [location, setLocation] = useState<LocationByIdDTO>();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (payload: LocationInput) => {
     try {
@@ -31,9 +19,9 @@ export function UpdateLocation() {
 
       let fileId = location?.file?.id;
 
-      if (fileId !== payload?.file_id) {
+      if (file) {
         const { id } = await FileService.create({
-          file: payload.file[0],
+          file,
         });
 
         fileId = id;
@@ -51,18 +39,18 @@ export function UpdateLocation() {
   };
 
   const getLocation = async () => {
+    setLoading(true);
+
     try {
       const { data } = await LocationService.getById(id as string);
 
       setLocation(data);
-      setValue("name", data.name);
-      setValue("state_id", data.state.id);
-      setValue("city_id", data.city.id);
-      setValue("file_id", data.file.id);
     } catch (error) {
       toast.error(
         (error as string) ?? "Ocorreu um erro ao buscar localização."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,12 +59,15 @@ export function UpdateLocation() {
   }, [id]);
 
   return (
-    <LocationForm
-      errors={errors}
-      register={register}
-      control={control}
-      watch={watch}
-      onSubmit={handleSubmit(onSubmit)}
-    />
+    <>
+      {!loading && (
+        <LocationForm
+          onSubmit={onSubmit}
+          location={location}
+          file={file}
+          setFile={setFile}
+        />
+      )}
+    </>
   );
 }
