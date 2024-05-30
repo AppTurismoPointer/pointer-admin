@@ -1,4 +1,4 @@
-import { SignIn } from "@/pages";
+import { SignIn, Logout } from "@/pages";
 import { AuthLayout } from "@/pages/layouts";
 
 export const authRoutes = [
@@ -9,6 +9,10 @@ export const authRoutes = [
       {
         path: "",
         element: <SignIn />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
       },
     ],
   },
