@@ -21,7 +21,7 @@ export function CreateLocation() {
         ...payload,
         file_id: id,
       });
-      toast.success("Localização cadastrada com sucesso!");
+      toast.success("Local Popular cadastrado com sucesso!");
       navigate("/locations");
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao cadastrar.");

@@ -22,7 +22,11 @@ export function Sidebar() {
         <div className="space-y-2 pl-6 mt-8 pb-4">
           {[
             { path: "/categories", label: "Categorias", icon: LayoutGrid },
-            { path: "/locations", label: "Localizações", icon: LocateFixed },
+            {
+              path: "/locations",
+              label: "Locais Populares",
+              icon: LocateFixed,
+            },
             { path: "/spots", label: "Pontos", icon: MapPin },
             { path: "/users", label: "Usuários", icon: Users },
           ].map((item) => (

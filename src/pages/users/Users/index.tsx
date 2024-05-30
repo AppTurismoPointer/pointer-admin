@@ -42,6 +42,17 @@ export function Users() {
       },
     },
     {
+      accessorKey: "email",
+      header: "E-mail",
+      cell: ({ row }) => {
+        return (
+          <span className="max-w-[500px] truncate font-medium">
+            {formatPhone(row.getValue("email"))}
+          </span>
+        );
+      },
+    },
+    {
       accessorKey: "phone",
       header: "Telefone",
       cell: ({ row }) => {

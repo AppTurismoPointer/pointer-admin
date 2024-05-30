@@ -31,7 +31,7 @@ export function UpdateLocation() {
         ...payload,
         file_id: fileId,
       });
-      toast.success("Localização atualizada com sucesso!");
+      toast.success("Local Popular atualizado com sucesso!");
       navigate("/locations");
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao atualizar.");

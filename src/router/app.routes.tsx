@@ -39,7 +39,7 @@ export const appRoutes = [
         path: "locations",
         element: <Locations />,
         handle: {
-          title: () => "Localizações",
+          title: () => "Locais Populares",
         },
       },
       {

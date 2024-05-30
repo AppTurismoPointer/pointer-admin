@@ -196,7 +196,9 @@ export function SpotForm({ file, setFile, onSubmit, spot }: SpotFormProps) {
           />
         </div>
 
-        <Button onClick={() => getCurrentLocation()}>Localização atual</Button>
+        <Button onClick={() => getCurrentLocation()}>
+          Local Popular atual
+        </Button>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <Controller
