@@ -12,11 +12,12 @@ import {
 import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { CategoryFormModal } from "../CategoryFormModal";
 
 export function Categories() {
-  const navigate = useNavigate();
+  const [category, setCategory] = useState<CategoryDTO>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
   const [categories, setCategories] = useState<CategoryDTO[]>([]);
@@ -49,7 +50,10 @@ export function Categories() {
       cell: ({ row }) => (
         <DataTableRowActions
           row={row}
-          onEdit={(id: string) => navigate(`/categories/${id}`)}
+          onEdit={() => {
+            setIsModalOpen(true);
+            setCategory(row.original);
+          }}
           onDelete={handleDelete}
         />
       ),
@@ -92,10 +96,21 @@ export function Categories() {
   }, [page, limit]);
 
   return (
-    <Table
-      table={table}
-      columnsLength={columns.length}
-      onCreate={() => navigate("/categories/add")}
-    />
+    <>
+      <Table
+        table={table}
+        columnsLength={columns.length}
+        onCreate={() => setIsModalOpen(true)}
+      />
+      <CategoryFormModal
+        refreshData={getCategories}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setCategory(undefined);
+        }}
+        category={category}
+      />
+    </>
   );
 }

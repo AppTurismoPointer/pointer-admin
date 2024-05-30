@@ -2,11 +2,9 @@ import { DefaultLayout } from "@/pages/layouts";
 import {
   Spots,
   Categories,
-  CreateCategory,
   Locations,
   CreateLocation,
   CreateSpot,
-  UpdateCategory,
   UpdateLocation,
 } from "@/pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -21,22 +19,6 @@ const routes = [
         element: <Categories />,
         handle: {
           title: () => "Categorias",
-        },
-      },
-      {
-        path: "categories/add",
-        element: <CreateCategory />,
-        handle: {
-          title: () => "Cadastrar categoria",
-          goBack: "categories",
-        },
-      },
-      {
-        path: "categories/:id",
-        element: <UpdateCategory />,
-        handle: {
-          title: () => "Atualizar categoria",
-          goBack: "categories",
         },
       },
       {

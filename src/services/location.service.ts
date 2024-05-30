@@ -6,18 +6,26 @@ const LOCATION_DOMAIN = "locations";
 export type LocationDTO = {
   id: string;
   name: string;
+  preview: string;
+  city: string;
+  state: string;
+};
+
+export type LocationByIdDTO = {
+  id: string;
+  name: string;
+  preview: string;
   city: {
     id: string;
     name: string;
-  };
-  state: {
-    id: string;
-    name: string;
+    state: {
+      id: string;
+      name: string;
+    };
   };
   file: {
     id: string;
     name: string;
-    preview: string;
   };
 };
 
@@ -34,7 +42,7 @@ const getAll = ({
   return api.get(`${LOCATION_DOMAIN}?page=${page}&limit=${limit}`);
 };
 
-const getById = (id: string): Promise<{ data: LocationDTO }> => {
+const getById = (id: string): Promise<{ data: LocationByIdDTO }> => {
   return api.get(`${LOCATION_DOMAIN}/${id}`);
 };
 
