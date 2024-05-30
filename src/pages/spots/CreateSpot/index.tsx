@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createLocationSchema } from "./schema";
+import { createSpotSchema } from "./schema";
 import { Button } from "@/components/ui/button";
-import { LocationService } from "@/services/location.service";
+import { SpotService } from "@/services/spot.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,17 +17,23 @@ import { Label } from "@/components/ui/label";
 import { CityDTO, StateDTO, StateService } from "@/services/state.service";
 import { useEffect, useState } from "react";
 import { FileService } from "@/services/file.service";
+import { CategoryDTO, CategoryService } from "@/services/category.service";
+import { getLocation } from "@/utils";
 
 type Input = {
   name: string;
   state_id: string;
   city_id: string;
+  category_id: string;
+  latitude: number;
+  longitude: number;
   file: Blob[];
 };
 
-export function CreateLocation() {
+export function CreateSpot() {
   const [states, setStates] = useState<StateDTO[]>([]);
   const [cities, setCities] = useState<CityDTO[]>([]);
+  const [categories, setCategories] = useState<CategoryDTO[]>([]);
   const navigate = useNavigate();
 
   const {
@@ -35,9 +41,10 @@ export function CreateLocation() {
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm<Input>({
-    resolver: yupResolver(createLocationSchema),
+    resolver: yupResolver(createSpotSchema),
   });
 
   const stateId = watch("state_id");
@@ -48,12 +55,12 @@ export function CreateLocation() {
         file: payload.file[0],
       });
 
-      await LocationService.create({
+      await SpotService.create({
         ...payload,
         file_id: id,
       });
-      toast.success("Localização cadastrada com sucesso!");
-      navigate("/locations");
+      toast.success("Ponto cadastrada com sucesso!");
+      navigate("/spots");
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao cadastrar.");
     }
@@ -79,12 +86,36 @@ export function CreateLocation() {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      const { data } = await CategoryService.getAll({ page: 1, limit: 9999 });
+
+      setCategories(data);
+    } catch (error) {
+      toast.error((error as string) ?? "Ocorreu um erro ao listar categorias.");
+    }
+  };
+
+  const getCurrentLocation = async () => {
+    try {
+      const { latitude, longitude } = await getLocation();
+
+      setValue("latitude", latitude);
+      setValue("longitude", longitude);
+    } catch (error) {
+      toast.error(
+        (error as string) ?? "Ocorreu um erro ao buscar localização."
+      );
+    }
+  };
+
   useEffect(() => {
     if (stateId) getCities();
   }, [stateId]);
 
   useEffect(() => {
     getStates();
+    getCategories();
   }, []);
 
   return (
@@ -96,7 +127,7 @@ export function CreateLocation() {
         <Button size="lg">Cadastrar</Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <Input
           label="Nome"
           placeholder="Digite o nome da localização"
@@ -112,7 +143,26 @@ export function CreateLocation() {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4 items-end">
+        <Input
+          label="Longitude"
+          placeholder="Digite o nome da localização"
+          error={errors?.longitude?.message}
+          {...register("longitude")}
+          type="number"
+        />
+        <Input
+          label="Latitude"
+          placeholder="Digite o nome da localização"
+          error={errors?.latitude?.message}
+          {...register("latitude")}
+          type="number"
+        />
+
+        <Button onClick={() => getCurrentLocation()}>Localização atual</Button>
+      </div>
+
+      <div className="grid grid-cols-3 gap-4">
         <Controller
           control={control}
           name="state_id"
@@ -134,7 +184,6 @@ export function CreateLocation() {
             </div>
           )}
         />
-
         <Controller
           control={control}
           name="city_id"
@@ -153,6 +202,27 @@ export function CreateLocation() {
                   {cities.map((city) => (
                     <SelectItem value={city.id} key={city.id}>
                       {city.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+        />
+        <Controller
+          control={control}
+          name="category_id"
+          render={({ field }) => (
+            <div className="flex flex-col gap-2">
+              <Label>Categoria</Label>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <SelectTrigger error={errors?.category_id?.message}>
+                  <SelectValue placeholder="Selecione a categoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem value={category.id} key={category.id}>
+                      {category.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

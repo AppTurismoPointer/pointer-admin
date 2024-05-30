@@ -13,9 +13,11 @@ export type SpotDTO = {
 
 export type SpotInput = {
   name: string;
-  preview: string;
-  city: string;
-  state: string;
+  city_id: string;
+  category_id: string;
+  file_id: string;
+  latitude: number;
+  longitude: number;
 };
 
 const getAll = ({
