@@ -1,15 +1,10 @@
-import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createCategorySchema } from "./schema";
-import { Button } from "@/components/ui/button";
 import { CategoryService } from "@/services/category.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-type Input = {
-  name: string;
-};
+import { CategoryForm, CategoryInput } from "../CategoryForm";
 
 export function CreateCategory() {
   const navigate = useNavigate();
@@ -17,11 +12,11 @@ export function CreateCategory() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Input>({
+  } = useForm<CategoryInput>({
     resolver: yupResolver(createCategorySchema),
   });
 
-  const onSubmit = async (payload: Input) => {
+  const onSubmit = async (payload: CategoryInput) => {
     try {
       await CategoryService.create(payload);
       toast.success("Categoria cadastrada com sucesso!");
@@ -32,20 +27,10 @@ export function CreateCategory() {
   };
 
   return (
-    <form
+    <CategoryForm
+      register={register}
+      errors={errors}
       onSubmit={handleSubmit(onSubmit)}
-      className="h-full flex flex-col gap-4"
-    >
-      <div className="flex justify-end">
-        <Button size="lg">Cadastrar</Button>
-      </div>
-
-      <Input
-        label="Nome"
-        placeholder="Digite o nome da categoria"
-        error={errors?.name?.message}
-        {...register("name")}
-      />
-    </form>
+    />
   );
 }

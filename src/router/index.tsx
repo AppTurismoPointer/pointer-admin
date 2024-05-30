@@ -6,6 +6,8 @@ import {
   Locations,
   CreateLocation,
   CreateSpot,
+  UpdateCategory,
+  UpdateLocation,
 } from "@/pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -30,6 +32,14 @@ const routes = [
         },
       },
       {
+        path: "categories/:id",
+        element: <UpdateCategory />,
+        handle: {
+          title: () => "Atualizar categoria",
+          goBack: "categories",
+        },
+      },
+      {
         path: "locations",
         element: <Locations />,
         handle: {
@@ -41,6 +51,14 @@ const routes = [
         element: <CreateLocation />,
         handle: {
           title: () => "Cadastrar localização",
+          goBack: "locations",
+        },
+      },
+      {
+        path: "locations/:id",
+        element: <UpdateLocation />,
+        handle: {
+          title: () => "Atualizar localização",
           goBack: "locations",
         },
       },

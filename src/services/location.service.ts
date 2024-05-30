@@ -6,9 +6,19 @@ const LOCATION_DOMAIN = "locations";
 export type LocationDTO = {
   id: string;
   name: string;
-  preview: string;
-  city: string;
-  state: string;
+  city: {
+    id: string;
+    name: string;
+  };
+  state: {
+    id: string;
+    name: string;
+  };
+  file: {
+    id: string;
+    name: string;
+    preview: string;
+  };
 };
 
 export type LocationInput = {
@@ -32,8 +42,11 @@ const create = ({ name, file_id, city_id }: LocationInput): Promise<void> => {
   return api.post(`${LOCATION_DOMAIN}`, { name, file_id, city_id });
 };
 
-const update = (id: string, { name }: LocationInput): Promise<void> => {
-  return api.put(`${LOCATION_DOMAIN}/${id}`, { name });
+const update = (
+  id: string,
+  { name, file_id, city_id }: LocationInput
+): Promise<void> => {
+  return api.put(`${LOCATION_DOMAIN}/${id}`, { name, file_id, city_id });
 };
 
 const remove = (id: string): Promise<void> => {
