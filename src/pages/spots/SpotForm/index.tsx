@@ -19,6 +19,7 @@ import { InputFile } from "@/components/ui/input-file";
 import { getLocation, validateFile } from "@/utils";
 import { ImageIcon } from "lucide-react";
 import { CategoryDTO, CategoryService } from "@/services/category.service";
+import { useNavigate } from "react-router-dom";
 
 export type SpotInput = {
   name: string;
@@ -38,6 +39,7 @@ interface SpotFormProps {
 }
 
 export function SpotForm({ file, setFile, onSubmit, spot }: SpotFormProps) {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -272,7 +274,7 @@ export function SpotForm({ file, setFile, onSubmit, spot }: SpotFormProps) {
       </div>
 
       <div className="flex items-center gap-4 justify-end mt-8">
-        <Button type="submit" variant="ghost">
+        <Button variant="ghost" onClick={() => navigate("/spots")}>
           Cancelar
         </Button>
         <Button type="submit">Salvar</Button>

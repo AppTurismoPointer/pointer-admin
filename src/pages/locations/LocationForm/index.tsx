@@ -18,6 +18,7 @@ import { locationSchema } from "./schema";
 import { InputFile } from "@/components/ui/input-file";
 import { validateFile } from "@/utils";
 import { ImageIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export type LocationInput = {
   name: string;
@@ -39,6 +40,7 @@ export function LocationForm({
   onSubmit,
   location,
 }: LocationFormProps) {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -198,7 +200,7 @@ export function LocationForm({
       </div>
 
       <div className="flex items-center gap-4 justify-end mt-8">
-        <Button type="submit" variant="ghost">
+        <Button variant="ghost" onClick={() => navigate("/locations")}>
           Cancelar
         </Button>
         <Button type="submit">Salvar</Button>
