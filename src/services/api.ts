@@ -13,6 +13,10 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    if (error?.response?.status === 401) {
+      return (window.location.href = "/logout");
+    }
+
     return Promise.reject(error?.response?.data?.message ?? undefined);
   }
 );
