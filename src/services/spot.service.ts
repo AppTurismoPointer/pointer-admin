@@ -3,6 +3,10 @@ import { api } from "./api";
 
 const SPOT_DOMAIN = "spots";
 
+export type PaymentMethodType = "PIX" | "BANK_TRANSFER" | "BOLETO";
+export type TransportMethodType = "UBER" | "TAXI" | "BIKE" | "TRANSFER" | "BUS";
+export type SpotType = "ESTABLISHMENT" | "SERVICE";
+
 export type SpotDTO = {
   id: string;
   name: string;
@@ -18,6 +22,11 @@ export type SpotByIdDTO = {
   preview: string;
   latitude: number;
   longitude: number;
+  price: number;
+  description: string;
+  transport_methods: TransportMethodType[];
+  payment_methods: PaymentMethodType[];
+  type: SpotType;
   category: {
     id: string;
     name: string;
@@ -35,15 +44,28 @@ export type SpotByIdDTO = {
     name: string;
     preview: string;
   };
+  company: {
+    id: string;
+    name: string;
+    file_id: string;
+    phone: string;
+    created_at: string;
+  };
 };
 
 export type SpotInput = {
   name: string;
   city_id: string;
   category_id: string;
+  company_id: string;
   file_id: string;
   latitude: number;
   longitude: number;
+  payment_methods: PaymentMethodType[];
+  transport_methods: TransportMethodType[];
+  type: SpotType;
+  description: string;
+  price?: number;
 };
 
 const getAll = ({
@@ -61,31 +83,62 @@ const create = ({
   name,
   city_id,
   category_id,
+  company_id,
   file_id,
   latitude,
   longitude,
+  payment_methods,
+  transport_methods,
+  type,
+  description,
+  price,
 }: SpotInput): Promise<void> => {
   return api.post(`${SPOT_DOMAIN}`, {
     name,
     city_id,
     category_id,
+    company_id,
     file_id,
     latitude,
     longitude,
+    payment_methods,
+    transport_methods,
+    type,
+    description,
+    price,
   });
 };
 
 const update = (
   id: string,
-  { name, city_id, category_id, file_id, latitude, longitude }: SpotInput
+  {
+    name,
+    city_id,
+    category_id,
+    company_id,
+    file_id,
+    latitude,
+    longitude,
+    payment_methods,
+    transport_methods,
+    type,
+    description,
+    price,
+  }: SpotInput
 ): Promise<void> => {
   return api.put(`${SPOT_DOMAIN}/${id}`, {
     name,
     city_id,
     category_id,
+    company_id,
     file_id,
     latitude,
     longitude,
+    payment_methods,
+    transport_methods,
+    type,
+    description,
+    price,
   });
 };
 

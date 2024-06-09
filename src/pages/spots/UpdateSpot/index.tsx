@@ -1,4 +1,9 @@
-import { SpotByIdDTO, SpotService } from "@/services/spot.service";
+import {
+  PaymentMethodType,
+  SpotByIdDTO,
+  SpotService,
+  TransportMethodType,
+} from "@/services/spot.service";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { FileService } from "@/services/file.service";
@@ -27,8 +32,19 @@ export function UpdateSpot() {
         fileId = id;
       }
 
+      const payments = Object.keys(payload.payment_methods).filter(
+        (item) => payload.payment_methods[item as PaymentMethodType] === true
+      );
+
+      const transports = Object.keys(payload.transport_methods).filter(
+        (item) =>
+          payload.transport_methods[item as TransportMethodType] === true
+      );
+
       await SpotService.update(id as string, {
         ...payload,
+        payment_methods: payments as PaymentMethodType[],
+        transport_methods: transports as TransportMethodType[],
         file_id: fileId,
       });
       toast.success("Ponto atualizado com sucesso!");

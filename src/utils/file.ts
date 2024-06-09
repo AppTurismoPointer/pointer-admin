@@ -1,4 +1,4 @@
-const MAX_FILE_SIZE = 200000;
+const MAX_FILE_SIZE = 400000;
 
 export const validateFile = (file: File) => {
   const { type, size } = file;

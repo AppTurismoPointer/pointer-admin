@@ -1,4 +1,8 @@
-import { SpotService } from "@/services/spot.service";
+import {
+  PaymentMethodType,
+  SpotService,
+  TransportMethodType,
+} from "@/services/spot.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FileService } from "@/services/file.service";
@@ -17,8 +21,19 @@ export function CreateSpot() {
         file,
       });
 
+      const payments = Object.keys(payload.payment_methods).filter(
+        (item) => payload.payment_methods[item as PaymentMethodType] === true
+      );
+
+      const transports = Object.keys(payload.transport_methods).filter(
+        (item) =>
+          payload.transport_methods[item as TransportMethodType] === true
+      );
+
       await SpotService.create({
         ...payload,
+        payment_methods: payments as PaymentMethodType[],
+        transport_methods: transports as TransportMethodType[],
         file_id: id,
       });
       toast.success("Ponto cadastrado com sucesso!");
