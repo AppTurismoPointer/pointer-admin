@@ -1,4 +1,5 @@
 import {
+  Building2,
   LayoutGrid,
   LocateFixed,
   LogOut,
@@ -28,6 +29,7 @@ export function Sidebar() {
               icon: LocateFixed,
             },
             { path: "/spots", label: "Pontos", icon: MapPin },
+            { path: "/companies", label: "Empresas", icon: Building2 },
             { path: "/users", label: "Usuários", icon: Users },
           ].map((item) => (
             <NavLink key={item.path} active={active} {...item} />

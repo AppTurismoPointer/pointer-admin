@@ -7,6 +7,9 @@ import {
   UpdateLocation,
   UpdateSpot,
   Users,
+  Companies,
+  UpdateCompany,
+  CreateCompany,
 } from "@/pages";
 
 import { DefaultLayout } from "@/pages/layouts";
@@ -79,6 +82,29 @@ export const appRoutes = [
         handle: {
           title: () => "Atualizar ponto",
           goBack: "spots",
+        },
+      },
+      {
+        path: "companies",
+        element: <Companies />,
+        handle: {
+          title: () => "Empresas",
+        },
+      },
+      {
+        path: "companies/add",
+        element: <CreateCompany />,
+        handle: {
+          title: () => "Cadastrar empresa",
+          goBack: "companies",
+        },
+      },
+      {
+        path: "companies/:id",
+        element: <UpdateCompany />,
+        handle: {
+          title: () => "Atualizar empresa",
+          goBack: "companies",
         },
       },
     ],
