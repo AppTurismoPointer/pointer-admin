@@ -62,7 +62,7 @@ export const authSlice = createSlice({
           name,
           email,
         };
-        setToken(JSON.stringify(token));
+        setToken(token);
       })
       .addCase(signIn.rejected, (state) => {
         state.loading = false;

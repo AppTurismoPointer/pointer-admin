@@ -1,3 +1,4 @@
+import { getToken } from "@/utils";
 import axios from "axios";
 
 const api = axios.create({
@@ -6,6 +7,16 @@ const api = axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
   },
+});
+
+api.interceptors.request.use(async (config) => {
+  const token = getToken() ?? "";
+
+  console.log(token);
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 api.interceptors.response.use(
