@@ -5,6 +5,7 @@ import {
   LogOut,
   LucideProps,
   MapPin,
+  SquareUser,
   Users,
 } from "lucide-react";
 import logo from "@/assets/logo.svg";
@@ -31,6 +32,7 @@ export function Sidebar() {
             { path: "/spots", label: "Pontos", icon: MapPin },
             { path: "/companies", label: "Empresas", icon: Building2 },
             { path: "/users", label: "Usuários", icon: Users },
+            { path: "/admin", label: "Usuários Admin", icon: SquareUser },
           ].map((item) => (
             <NavLink key={item.path} active={active} {...item} />
           ))}

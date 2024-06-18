@@ -10,6 +10,9 @@ import {
   Companies,
   UpdateCompany,
   CreateCompany,
+  UsersAdmin,
+  CreateUserAdmin,
+  UpdateUserAdmin,
 } from "@/pages";
 
 import { DefaultLayout } from "@/pages/layouts";
@@ -105,6 +108,29 @@ export const appRoutes = [
         handle: {
           title: () => "Atualizar empresa",
           goBack: "companies",
+        },
+      },
+      {
+        path: "admin",
+        element: <UsersAdmin />,
+        handle: {
+          title: () => "Usuários Admnistrativos",
+        },
+      },
+      {
+        path: "admin/add",
+        element: <CreateUserAdmin />,
+        handle: {
+          title: () => "Cadastrar usuário admin",
+          goBack: "admin",
+        },
+      },
+      {
+        path: "admin/:id",
+        element: <UpdateUserAdmin />,
+        handle: {
+          title: () => "Atualizar usuário admin",
+          goBack: "admin",
         },
       },
     ],

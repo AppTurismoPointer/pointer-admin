@@ -31,7 +31,9 @@ export function Locations() {
     {
       accessorKey: "id",
       header: "ID",
-      cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+      cell: ({ row }) => (
+        <div className="truncate w-[80px]">{row.getValue("id")}</div>
+      ),
       enableSorting: false,
       enableHiding: false,
     },

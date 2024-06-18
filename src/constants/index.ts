@@ -3,7 +3,6 @@ import {
   TransportMethodType,
 } from "@/services/spot.service";
 
-export const regexIsAtLeastTwoWords = /^(?:\S+\s){1,}\S+$/;
 export const regexMinimum8Characters = /[\S]{8,}/;
 export const regexAtLeast1LetterUppercase = /[A-Z]/;
 export const regexAtLeast1LetterLowercase = /[a-z]/;

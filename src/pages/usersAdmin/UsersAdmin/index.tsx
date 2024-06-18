@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { userSchema } from "./schema";
+import { userAdminSchema } from "./schema";
 
 import { useEffect, useState } from "react";
-import { UserDTO, UserService } from "@/services/user.service";
+import { UserAdminDTO, UserAdminService } from "@/services/user-admin.service";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -11,12 +11,15 @@ import {
 import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
-import { formatPhone } from "@/utils";
+import { DataTableRowActions } from "@/components/table/components";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export function Users() {
+export function UsersAdmin() {
+  const navigate = useNavigate();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
-  const [categories, setUsers] = useState<UserDTO[]>([]);
+  const [usersAdmin, setUsersAdmin] = useState<UserAdminDTO[]>([]);
   const [meta, setMeta] = useState<MetaPagination>({
     page: 0,
     limit: 0,
@@ -24,7 +27,18 @@ export function Users() {
     totalPages: 0,
   });
 
-  const columns: ColumnDef<UserDTO>[] = [
+  const handleDelete = async (id: string) => {
+    try {
+      await UserAdminService.remove(id);
+      toast.success("Usuário Admnistrativo deletado com sucesso!");
+
+      getUsersAdmin();
+    } catch (error) {
+      toast.error((error as string) ?? "Ocorreu um erro ao deletar.");
+    }
+  };
+
+  const columns: ColumnDef<UserAdminDTO>[] = [
     {
       accessorKey: "id",
       header: "ID",
@@ -49,30 +63,26 @@ export function Users() {
       cell: ({ row }) => {
         return (
           <span className="max-w-[500px] truncate font-medium">
-            {formatPhone(row.getValue("email"))}
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: "phone",
-      header: "Telefone",
-      cell: ({ row }) => {
-        return (
-          <span className="max-w-[500px] truncate font-medium">
-            {formatPhone(row.getValue("phone"))}
+            {row.getValue("email")}
           </span>
         );
       },
     },
     {
       id: "actions",
+      cell: ({ row }) => (
+        <DataTableRowActions
+          row={row}
+          onEdit={(id: string) => navigate(`/admin/${id}`)}
+          onDelete={handleDelete}
+        />
+      ),
     },
   ];
 
   const table = useReactTable({
     columns,
-    data: categories,
+    data: usersAdmin,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     state: { pagination },
@@ -80,19 +90,25 @@ export function Users() {
     pageCount: meta.totalPages,
   });
 
-  const getUsers = async () => {
-    const data = await UserService.getAll({
+  const getUsersAdmin = async () => {
+    const data = await UserAdminService.getAll({
       page: page + 1,
       limit,
     });
 
-    setUsers(z.array(userSchema).parse(data.data));
+    setUsersAdmin(z.array(userAdminSchema).parse(data.data));
     setMeta(data.meta);
   };
 
   useEffect(() => {
-    getUsers();
+    getUsersAdmin();
   }, [page, limit]);
 
-  return <Table table={table} columnsLength={columns.length} />;
+  return (
+    <Table
+      table={table}
+      columnsLength={columns.length}
+      onCreate={() => navigate("/admin/add")}
+    />
+  );
 }
