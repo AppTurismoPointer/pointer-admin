@@ -16,12 +16,14 @@ interface TableProps<TData> {
   table: ReactTable<TData>;
   columnsLength: number;
   onCreate?: () => void;
+  onClick?: (id: string) => void;
 }
 
 export function Table<TData>({
   table,
   columnsLength,
   onCreate,
+  onClick = () => {},
 }: TableProps<TData>) {
   return (
     <div className="space-y-4">
@@ -64,7 +66,11 @@ export function Table<TData>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow
+                  key={row.id}
+                  onClick={() => onClick(row.getValue("id"))}
+                  className="cursor-pointer"
+                >
                   {row.getVisibleCells().map((cell, index) => (
                     <TableCell
                       key={cell.id}

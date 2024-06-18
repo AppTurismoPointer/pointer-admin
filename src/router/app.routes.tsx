@@ -17,6 +17,8 @@ import {
 
 import { DefaultLayout } from "@/pages/layouts";
 import PrivateRoute from "./PrivateRoute";
+import { States } from "@/pages/States";
+import { Cities } from "@/pages/Cities";
 
 export const appRoutes = [
   {
@@ -66,6 +68,27 @@ export const appRoutes = [
       },
       {
         path: "spots",
+        element: <States />,
+        handle: {
+          title: () => "Pontos",
+        },
+      },
+      {
+        path: "spots/:stateId",
+        element: <Cities />,
+        handle: {
+          title: () => "Pontos",
+        },
+      },
+      {
+        path: "spots/:stateId/:cityId",
+        element: <Spots />,
+        handle: {
+          title: () => "Pontos",
+        },
+      },
+      {
+        path: "spots/:stateId",
         element: <Spots />,
         handle: {
           title: () => "Pontos",

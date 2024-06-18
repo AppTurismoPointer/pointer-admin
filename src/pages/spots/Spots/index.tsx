@@ -13,9 +13,10 @@ import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function Spots() {
+  const { cityId } = useParams();
   const navigate = useNavigate();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
@@ -111,7 +112,7 @@ export function Spots() {
   });
 
   const getSpots = async () => {
-    const data = await SpotService.getAll({
+    const data = await SpotService.getAll(cityId as string, {
       page: page + 1,
       limit,
     });

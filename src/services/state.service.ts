@@ -1,3 +1,4 @@
+import { MetaPagination, Pagination } from "@/types/pagination";
 import { api } from "./api";
 
 const STATE_DOMAIN = "states";
@@ -7,26 +8,13 @@ export type StateDTO = {
   name: string;
 };
 
-export type StateByIdDTO = {
-  id: string;
-  name: string;
-  cities: CityDTO[];
-};
-
-export type CityDTO = {
-  id: string;
-  name: string;
-};
-
-const getAll = (): Promise<{ data: StateDTO[] }> => {
-  return api.get(`${STATE_DOMAIN}`);
-};
-
-const getById = (stateId: string): Promise<{ data: StateByIdDTO }> => {
-  return api.get(`${STATE_DOMAIN}/${stateId}`);
+const getAll = ({
+  page = 1,
+  limit = 10,
+}: Pagination): Promise<{ meta: MetaPagination; data: StateDTO[] }> => {
+  return api.get(`${STATE_DOMAIN}?page=${page}&limit=${limit}`);
 };
 
 export const StateService = {
   getAll,
-  getById,
 };

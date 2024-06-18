@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { CityDTO, StateDTO, StateService } from "@/services/state.service";
+import { StateDTO, StateService } from "@/services/state.service";
 import { useEffect, useState } from "react";
 import { LocationByIdDTO } from "@/services/location.service";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,6 +19,7 @@ import { InputFile } from "@/components/ui/input-file";
 import { validateFile } from "@/utils";
 import { ImageIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { CityDTO, CityService } from "@/services/city.service";
 
 export type LocationInput = {
   name: string;
@@ -69,7 +70,7 @@ export function LocationForm({
 
   const getStates = async () => {
     try {
-      const { data } = await StateService.getAll();
+      const { data } = await StateService.getAll({ page: 1, limit: 99999 });
 
       setStates(data);
       if (location) setValue("state_id", location.city.state.id);
@@ -80,9 +81,12 @@ export function LocationForm({
 
   const getCities = async () => {
     try {
-      const { data } = await StateService.getById(stateId);
+      const { data } = await CityService.getAll(stateId, {
+        page: 1,
+        limit: 999999,
+      });
 
-      setCities(data.cities);
+      setCities(data);
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
     }

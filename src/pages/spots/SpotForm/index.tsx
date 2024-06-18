@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { CityDTO, StateDTO, StateService } from "@/services/state.service";
+import { StateDTO, StateService } from "@/services/state.service";
 import { useEffect, useState } from "react";
 import {
   PaymentMethodType,
@@ -29,6 +29,7 @@ import { CompanyDTO, CompanyService } from "@/services/company.service";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { paymentMethods, transportMethods } from "@/constants";
+import { CityDTO, CityService } from "@/services/city.service";
 
 export type SpotInput = {
   name: string;
@@ -105,7 +106,7 @@ export function SpotForm({ file, setFile, onSubmit, spot }: SpotFormProps) {
 
   const getStates = async () => {
     try {
-      const { data } = await StateService.getAll();
+      const { data } = await StateService.getAll({ page: 1, limit: 99999999 });
 
       setStates(data);
       if (spot) setValue("state_id", spot.city.state.id);
@@ -116,9 +117,12 @@ export function SpotForm({ file, setFile, onSubmit, spot }: SpotFormProps) {
 
   const getCities = async () => {
     try {
-      const { data } = await StateService.getById(stateId);
+      const { data } = await CityService.getAll(stateId, {
+        page: 1,
+        limit: 99999999,
+      });
 
-      setCities(data.cities);
+      setCities(data);
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
     }
