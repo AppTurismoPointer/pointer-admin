@@ -171,6 +171,20 @@ export const appRoutes = [
           goBack: "admin",
         },
       },
+      {
+        path: "states",
+        element: <States />,
+        handle: {
+          title: () => "Estados",
+        },
+      },
+      {
+        path: "states/:stateId",
+        element: <Cities />,
+        handle: {
+          title: () => "Cidades",
+        },
+      },
     ],
   },
 ];

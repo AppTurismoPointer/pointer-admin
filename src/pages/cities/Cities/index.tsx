@@ -12,11 +12,18 @@ import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
 import { useNavigate, useParams } from "react-router-dom";
+import { CityFormModal } from "..";
+import { DataTableRowActions } from "@/components/table/components";
+import { toast } from "react-toastify";
 
 export function Cities() {
   const navigate = useNavigate();
   const { stateId } = useParams();
   const { page, limit, pagination, onPaginationChange } = usePagination();
+
+  const isStateRoutes = window.location.pathname.includes("states");
+  const [city, setCity] = useState<CityDTO>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [cities, setCities] = useState<CityDTO[]>([]);
   const [meta, setMeta] = useState<MetaPagination>({
@@ -49,7 +56,18 @@ export function Cities() {
     },
     {
       id: "actions",
-      cell: () => null,
+      cell: ({ row }) => {
+        return isStateRoutes ? (
+          <DataTableRowActions
+            row={row}
+            onEdit={() => {
+              setIsModalOpen(true);
+              setCity(row.original);
+            }}
+            onDelete={handleDelete}
+          />
+        ) : null;
+      },
     },
   ];
 
@@ -75,17 +93,42 @@ export function Cities() {
     setMeta(data.meta);
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await CityService.remove(id);
+      toast.success("Cidade deletada com sucesso!");
+
+      getCities();
+      setSearch("");
+    } catch (error) {
+      toast.error((error as string) ?? "Ocorreu um erro ao deletar.");
+    }
+  };
+
   useEffect(() => {
     getCities();
   }, [page, limit, search]);
 
   return (
-    <Table
-      onClick={(id) => navigate(id)}
-      table={table}
-      columnsLength={columns.length}
-      search={search}
-      setSearch={setSearch}
-    />
+    <>
+      <Table
+        onClick={isStateRoutes ? undefined : (id) => navigate(id)}
+        table={table}
+        columnsLength={columns.length}
+        search={search}
+        setSearch={setSearch}
+        onCreate={isStateRoutes ? () => setIsModalOpen(true) : undefined}
+      />
+      <CityFormModal
+        refreshData={getCities}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setCity(undefined);
+        }}
+        city={city}
+        stateId={stateId as string}
+      />
+    </>
   );
 }

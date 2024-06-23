@@ -33,6 +33,7 @@ export function Sidebar() {
             { path: "/companies", label: "Empresas", icon: Building2 },
             { path: "/users", label: "Usuários", icon: Users },
             { path: "/admin", label: "Usuários Admin", icon: SquareUser },
+            { path: "/states", label: "Estados", icon: Building2 },
           ].map((item) => (
             <NavLink key={item.path} active={active} {...item} />
           ))}
