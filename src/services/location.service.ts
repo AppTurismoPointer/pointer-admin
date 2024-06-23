@@ -35,11 +35,13 @@ export type LocationInput = {
   file_id: string;
 };
 
-const getAll = ({
-  page = 1,
-  limit = 10,
-}: Pagination): Promise<{ meta: MetaPagination; data: LocationDTO[] }> => {
-  return api.get(`${LOCATION_DOMAIN}?page=${page}&limit=${limit}`);
+const getAll = (
+  cityId: string,
+  { page = 1, limit = 10 }: Pagination
+): Promise<{ meta: MetaPagination; data: LocationDTO[] }> => {
+  return api.get(
+    `${LOCATION_DOMAIN}?page=${page}&limit=${limit}&cityId=${cityId}`
+  );
 };
 
 const getById = (id: string): Promise<{ data: LocationByIdDTO }> => {

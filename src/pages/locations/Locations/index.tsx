@@ -13,10 +13,11 @@ import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function Locations() {
   const navigate = useNavigate();
+  const { cityId } = useParams();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
   const [locations, setLocations] = useState<LocationDTO[]>([]);
@@ -100,7 +101,7 @@ export function Locations() {
   });
 
   const getLocations = async () => {
-    const data = await LocationService.getAll({
+    const data = await LocationService.getAll(cityId as string, {
       page: page + 1,
       limit,
     });

@@ -5,3 +5,5 @@ export * from "./locations";
 export * from "./users";
 export * from "./companies";
 export * from "./usersAdmin";
+export * from "./states";
+export * from "./cities";
