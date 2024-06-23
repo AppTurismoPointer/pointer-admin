@@ -11,8 +11,11 @@ export type StateDTO = {
 const getAll = ({
   page = 1,
   limit = 10,
+  search = "",
 }: Pagination): Promise<{ meta: MetaPagination; data: StateDTO[] }> => {
-  return api.get(`${STATE_DOMAIN}?page=${page}&limit=${limit}`);
+  return api.get(
+    `${STATE_DOMAIN}?page=${page}&limit=${limit}&search=${search}`
+  );
 };
 
 export const StateService = {

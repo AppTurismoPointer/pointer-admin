@@ -10,10 +10,10 @@ export type CityDTO = {
 
 const getAll = (
   stateId: string,
-  { page = 1, limit = 10 }: Pagination
+  { page = 1, limit = 10, search = "" }: Pagination
 ): Promise<{ meta: MetaPagination; data: CityDTO[] }> => {
   return api.get(
-    `${CITY_DOMAIN}?page=${page}&limit=${limit}&stateId=${stateId}`
+    `${CITY_DOMAIN}?page=${page}&limit=${limit}&stateId=${stateId}&search=${search}`
   );
 };
 

@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 export function States() {
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
   const [states, setStates] = useState<StateDTO[]>([]);
@@ -63,9 +64,12 @@ export function States() {
   });
 
   const getStates = async () => {
+    setStates([]);
+
     const data = await StateService.getAll({
       page: page + 1,
       limit,
+      search,
     });
 
     setStates(z.array(stateSchema).parse(data.data));
@@ -74,13 +78,15 @@ export function States() {
 
   useEffect(() => {
     getStates();
-  }, [page, limit]);
+  }, [page, limit, search]);
 
   return (
     <Table
       onClick={(id) => navigate(id)}
       table={table}
       columnsLength={columns.length}
+      search={search}
+      setSearch={setSearch}
     />
   );
 }

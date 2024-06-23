@@ -6,10 +6,16 @@ import { Input } from "@/components/ui/input";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  disabled: boolean;
 }
 
 export function DataTableToolbar<TData>({
   table,
+  value,
+  onChange,
+  disabled,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -17,10 +23,9 @@ export function DataTableToolbar<TData>({
     <div className="flex flex-1 items-center space-x-2">
       <Input
         placeholder="Pesquisar..."
-        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-        onChange={(event) =>
-          table.getColumn("name")?.setFilterValue(event.target.value)
-        }
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
         className="h-8 w-[150px] lg:w-[250px]"
       />
       {isFiltered && (

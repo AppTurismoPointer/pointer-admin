@@ -17,8 +17,8 @@ export function Cities() {
   const navigate = useNavigate();
   const { stateId } = useParams();
   const { page, limit, pagination, onPaginationChange } = usePagination();
-
-  const [citys, setCities] = useState<CityDTO[]>([]);
+  const [search, setSearch] = useState("");
+  const [cities, setCities] = useState<CityDTO[]>([]);
   const [meta, setMeta] = useState<MetaPagination>({
     page: 0,
     limit: 0,
@@ -55,7 +55,7 @@ export function Cities() {
 
   const table = useReactTable({
     columns,
-    data: citys,
+    data: cities,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     state: { pagination },
@@ -64,9 +64,11 @@ export function Cities() {
   });
 
   const getCities = async () => {
+    setCities([]);
     const data = await CityService.getAll(stateId as string, {
       page: page + 1,
       limit,
+      search,
     });
 
     setCities(z.array(citySchema).parse(data.data));
@@ -75,13 +77,15 @@ export function Cities() {
 
   useEffect(() => {
     getCities();
-  }, [page, limit]);
+  }, [page, limit, search]);
 
   return (
     <Table
       onClick={(id) => navigate(id)}
       table={table}
       columnsLength={columns.length}
+      search={search}
+      setSearch={setSearch}
     />
   );
 }

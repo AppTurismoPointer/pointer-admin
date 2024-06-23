@@ -17,6 +17,8 @@ interface TableProps<TData> {
   columnsLength: number;
   onCreate?: () => void;
   onClick?: (id: string) => void;
+  search?: string;
+  setSearch?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export function Table<TData>({
@@ -24,11 +26,18 @@ export function Table<TData>({
   columnsLength,
   onCreate,
   onClick = () => {},
+  search = "",
+  setSearch,
 }: TableProps<TData>) {
   return (
     <div className="space-y-4">
       <div className="flex gap-4 justify-between items-center">
-        <DataTableToolbar table={table} />
+        <DataTableToolbar
+          value={search}
+          onChange={setSearch ? (e) => setSearch(e.target.value) : () => {}}
+          table={table}
+          disabled={!setSearch}
+        />
         {onCreate && (
           <Button onClick={onCreate} disabled={!onCreate}>
             Cadastrar
