@@ -1,4 +1,4 @@
-import { Link, Outlet, useMatches } from "react-router-dom";
+import { Outlet, useMatches, useNavigate } from "react-router-dom";
 
 import { Sidebar } from "@/components";
 import { Container } from "./styles";
@@ -13,6 +13,7 @@ type MatchProps = Omit<ReturnType<typeof useMatches>[number], "handle"> & {
 
 export const DefaultLayout = () => {
   const pathname = window.location.pathname;
+  const navigate = useNavigate();
   const matches = useMatches() as MatchProps[];
 
   const crumbs = matches
@@ -33,9 +34,9 @@ export const DefaultLayout = () => {
       <div className="w-full">
         <div className="flex items-center gap-2 py-4 px-6">
           {active?.goBack ? (
-            <Link to={active?.goBack}>
+            <button onClick={() => navigate(-1)}>
               <ArrowLeft className="text-primary" size={18} />
-            </Link>
+            </button>
           ) : null}
           <h1 className="text-2xl font-bold text-primary tracking-tight">
             {active?.title}

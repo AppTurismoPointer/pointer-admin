@@ -17,7 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export function Locations() {
   const navigate = useNavigate();
-  const { cityId } = useParams();
+  const { stateId, cityId } = useParams();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
   const [locations, setLocations] = useState<LocationDTO[]>([]);
@@ -83,7 +83,9 @@ export function Locations() {
       cell: ({ row }) => (
         <DataTableRowActions
           row={row}
-          onEdit={(id: string) => navigate(`/locations/${id}`)}
+          onEdit={(id: string) =>
+            navigate(`/locations/${stateId}/${cityId}/${id}`)
+          }
           onDelete={handleDelete}
         />
       ),
@@ -129,7 +131,7 @@ export function Locations() {
     <Table
       table={table}
       columnsLength={columns.length}
-      onCreate={() => navigate("/locations/add")}
+      onCreate={() => navigate(`/locations/${stateId}/${cityId}/add`)}
     />
   );
 }

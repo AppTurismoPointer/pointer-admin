@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function Spots() {
-  const { cityId } = useParams();
+  const { stateId, cityId } = useParams();
   const navigate = useNavigate();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
@@ -94,7 +94,7 @@ export function Spots() {
       cell: ({ row }) => (
         <DataTableRowActions
           row={row}
-          onEdit={(id: string) => navigate(`/spots/${id}`)}
+          onEdit={(id: string) => navigate(`/spots/${stateId}/${cityId}/${id}`)}
           onDelete={handleDelete}
         />
       ),
@@ -140,7 +140,7 @@ export function Spots() {
     <Table
       table={table}
       columnsLength={columns.length}
-      onCreate={() => navigate("/spots/add")}
+      onCreate={() => navigate(`/spots/${stateId}/${cityId}/add`)}
     />
   );
 }

@@ -33,6 +33,7 @@ const spotsRoutes = [
     element: <Cities />,
     handle: {
       title: () => "Pontos",
+      goBack: true,
     },
   },
   {
@@ -40,22 +41,23 @@ const spotsRoutes = [
     element: <Spots />,
     handle: {
       title: () => "Pontos",
+      goBack: true,
     },
   },
   {
-    path: "spots/add",
+    path: "spots/:stateId/:cityId/add",
     element: <CreateSpot />,
     handle: {
       title: () => "Cadastrar ponto",
-      goBack: "spots",
+      goBack: true,
     },
   },
   {
-    path: "spots/:id",
+    path: "spots/:stateId/:cityId/:id",
     element: <UpdateSpot />,
     handle: {
       title: () => "Atualizar ponto",
-      goBack: "spots",
+      goBack: true,
     },
   },
 ];
@@ -73,6 +75,7 @@ const locationsRoutes = [
     element: <Cities />,
     handle: {
       title: () => "Locais Populares",
+      goBack: true,
     },
   },
   {
@@ -80,22 +83,23 @@ const locationsRoutes = [
     element: <Locations />,
     handle: {
       title: () => "Locais Populares",
+      goBack: true,
     },
   },
   {
-    path: "locations/add",
+    path: "locations/:stateId/:cityId/add",
     element: <CreateLocation />,
     handle: {
       title: () => "Cadastrar local popular",
-      goBack: "locations",
+      goBack: true,
     },
   },
   {
-    path: "locations/:id",
+    path: "locations/:stateId/:cityId/:id",
     element: <UpdateLocation />,
     handle: {
       title: () => "Atualizar local popular",
-      goBack: "locations",
+      goBack: true,
     },
   },
 ];
@@ -137,7 +141,7 @@ export const appRoutes = [
         element: <CreateCompany />,
         handle: {
           title: () => "Cadastrar empresa",
-          goBack: "companies",
+          goBack: true,
         },
       },
       {
@@ -145,7 +149,7 @@ export const appRoutes = [
         element: <UpdateCompany />,
         handle: {
           title: () => "Atualizar empresa",
-          goBack: "companies",
+          goBack: true,
         },
       },
       {
@@ -153,6 +157,7 @@ export const appRoutes = [
         element: <UsersAdmin />,
         handle: {
           title: () => "Usuários Admnistrativos",
+          goBack: true,
         },
       },
       {
@@ -160,7 +165,7 @@ export const appRoutes = [
         element: <CreateUserAdmin />,
         handle: {
           title: () => "Cadastrar usuário admin",
-          goBack: "admin",
+          goBack: true,
         },
       },
       {
@@ -168,7 +173,7 @@ export const appRoutes = [
         element: <UpdateUserAdmin />,
         handle: {
           title: () => "Atualizar usuário admin",
-          goBack: "admin",
+          goBack: true,
         },
       },
       {
@@ -183,6 +188,7 @@ export const appRoutes = [
         element: <Cities />,
         handle: {
           title: () => "Cidades",
+          goBack: true,
         },
       },
     ],
