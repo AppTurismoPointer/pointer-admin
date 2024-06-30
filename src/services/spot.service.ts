@@ -1,12 +1,23 @@
 import { Pagination, MetaPagination } from "@/types/pagination";
 import { api } from "./api";
-import { Gallery } from "./location.service";
 
 const SPOT_DOMAIN = "spots";
 
 export type PaymentMethodType = "PIX" | "BANK_TRANSFER" | "BOLETO";
 export type TransportMethodType = "UBER" | "TAXI" | "BIKE" | "TRANSFER" | "BUS";
 export type SpotType = "ESTABLISHMENT" | "SERVICE";
+
+export type Gallery = {
+  id: string;
+  spot_id: string;
+  file_id: string;
+  preview: string;
+  file: {
+    id: string;
+    name: string;
+  };
+  created_at: string;
+};
 
 export type SpotDTO = {
   id: string;

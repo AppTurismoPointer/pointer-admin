@@ -18,8 +18,8 @@ import {
   SpotService,
   SpotType,
   TransportMethodType,
+  Gallery as GalleryType,
 } from "@/services/spot.service";
-import { Gallery as GalleryType } from "@/services/location.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { spotSchema } from "./schema";
 import { InputFile } from "@/components/ui/input-file";

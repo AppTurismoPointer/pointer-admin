@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 
 import { Label } from "@/components/ui/label";
-import { Gallery as GalleryType } from "@/services/location.service";
+import { Gallery as LocationGallery } from "@/services/location.service";
+import { Gallery as SpotGallery } from "@/services/spot.service";
 import { InputFile } from "@/components/ui/input-file";
 import { TrashIcon } from "lucide-react";
 
 interface GalleryProps {
-  gallery: GalleryType[];
+  gallery: (LocationGallery | SpotGallery)[];
   error: string;
   onSubmit: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDelete: (id: string) => void;
