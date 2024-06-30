@@ -1,5 +1,6 @@
 import { Pagination, MetaPagination } from "@/types/pagination";
 import { api } from "./api";
+import { Spot } from "@/pages/spots/Spots/schema";
 
 const LOCATION_DOMAIN = "locations";
 
@@ -13,6 +14,18 @@ export type Gallery = {
     name: string;
   };
   created_at: string;
+};
+
+export type LocationAssociates = {
+  id: string;
+  location_id: string;
+  spot_id: string;
+  spot: Spot;
+};
+
+export type LocationAssociatesCombo = {
+  id: string;
+  name: string;
 };
 
 export type LocationDTO = {
@@ -52,6 +65,11 @@ export type LocationInput = {
 export type LocationGalleryInput = {
   location_id: string;
   file_id: string;
+};
+
+export type LocationAssociatedInput = {
+  location_id: string;
+  spot_id: string;
 };
 
 const getAll = (
@@ -117,6 +135,32 @@ const removeGallery = (galleryId: string): Promise<void> => {
   return api.delete(`${LOCATION_DOMAIN}/gallery/${galleryId}`);
 };
 
+const getAllAssociates = (
+  locationId: string
+): Promise<{ data: LocationAssociates[] }> => {
+  return api.get(`${LOCATION_DOMAIN}/${locationId}/associates`);
+};
+
+const getComboAssociates = (
+  locationId: string
+): Promise<{ data: LocationAssociatesCombo[] }> => {
+  return api.get(`${LOCATION_DOMAIN}/${locationId}/associates/combo`);
+};
+
+const createAssociates = ({
+  location_id,
+  spot_id,
+}: LocationAssociatedInput): Promise<void> => {
+  return api.post(`${LOCATION_DOMAIN}/associates`, {
+    location_id,
+    spot_id,
+  });
+};
+
+const removeAssociates = (id: string): Promise<void> => {
+  return api.delete(`${LOCATION_DOMAIN}/associates/${id}`);
+};
+
 export const LocationService = {
   getAll,
   getById,
@@ -127,5 +171,11 @@ export const LocationService = {
     getAll: getAllGallery,
     create: createGallery,
     remove: removeGallery,
+  },
+  associates: {
+    getAll: getAllAssociates,
+    getCombo: getComboAssociates,
+    create: createAssociates,
+    remove: removeAssociates,
   },
 };
