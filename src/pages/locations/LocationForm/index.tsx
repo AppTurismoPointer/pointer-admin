@@ -20,12 +20,15 @@ import { validateFile } from "@/utils";
 import { ImageIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { CityDTO, CityService } from "@/services/city.service";
+import { Textarea } from "@/components/ui/textarea";
+import { CompanyService } from "@/services/company.service";
 
 export type LocationInput = {
   name: string;
   state_id: string;
   city_id: string;
   preview: string;
+  description: string;
 };
 
 interface LocationFormProps {
@@ -58,6 +61,7 @@ export function LocationForm({
       city_id: location?.city?.id,
       state_id: location?.city?.state?.id,
       preview: location?.preview,
+      description: location?.description,
     },
   });
 
@@ -202,6 +206,13 @@ export function LocationForm({
           )}
         />
       </div>
+
+      <Textarea
+        label="Descrição"
+        placeholder="Digite uma breve descrição"
+        error={errors?.description?.message}
+        {...register("description")}
+      />
 
       <div className="flex items-center gap-4 justify-end mt-8">
         <Button variant="ghost" onClick={() => navigate("/locations")}>

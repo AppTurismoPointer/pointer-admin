@@ -15,6 +15,7 @@ export type LocationByIdDTO = {
   id: string;
   name: string;
   preview: string;
+  description: string;
   city: {
     id: string;
     name: string;
@@ -33,6 +34,7 @@ export type LocationInput = {
   name: string;
   city_id: string;
   file_id: string;
+  description: string;
 };
 
 const getAll = (
@@ -48,15 +50,30 @@ const getById = (id: string): Promise<{ data: LocationByIdDTO }> => {
   return api.get(`${LOCATION_DOMAIN}/${id}`);
 };
 
-const create = ({ name, file_id, city_id }: LocationInput): Promise<void> => {
-  return api.post(`${LOCATION_DOMAIN}`, { name, file_id, city_id });
+const create = ({
+  name,
+  file_id,
+  city_id,
+  description,
+}: LocationInput): Promise<void> => {
+  return api.post(`${LOCATION_DOMAIN}`, {
+    name,
+    file_id,
+    city_id,
+    description,
+  });
 };
 
 const update = (
   id: string,
-  { name, file_id, city_id }: LocationInput
+  { name, file_id, city_id, description }: LocationInput
 ): Promise<void> => {
-  return api.put(`${LOCATION_DOMAIN}/${id}`, { name, file_id, city_id });
+  return api.put(`${LOCATION_DOMAIN}/${id}`, {
+    name,
+    file_id,
+    city_id,
+    description,
+  });
 };
 
 const remove = (id: string): Promise<void> => {

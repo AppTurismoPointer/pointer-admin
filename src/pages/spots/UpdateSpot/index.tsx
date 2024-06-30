@@ -48,7 +48,7 @@ export function UpdateSpot() {
         file_id: fileId,
       });
       toast.success("Ponto atualizado com sucesso!");
-      navigate("/spots");
+      navigate(-1);
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao atualizar.");
     }

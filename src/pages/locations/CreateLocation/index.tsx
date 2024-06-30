@@ -22,7 +22,7 @@ export function CreateLocation() {
         file_id: id,
       });
       toast.success("Local Popular cadastrado com sucesso!");
-      navigate("/locations");
+      navigate(-1);
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao cadastrar.");
     }

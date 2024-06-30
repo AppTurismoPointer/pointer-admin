@@ -37,7 +37,7 @@ export function CreateSpot() {
         file_id: id,
       });
       toast.success("Ponto cadastrado com sucesso!");
-      navigate("/spots");
+      navigate(-1);
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao cadastrar.");
     }

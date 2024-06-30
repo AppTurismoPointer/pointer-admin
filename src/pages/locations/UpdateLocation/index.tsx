@@ -32,7 +32,7 @@ export function UpdateLocation() {
         file_id: fileId,
       });
       toast.success("Local Popular atualizado com sucesso!");
-      navigate("/locations");
+      navigate(-1);
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao atualizar.");
     }
