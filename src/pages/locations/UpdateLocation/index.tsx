@@ -31,6 +31,7 @@ export function UpdateLocation() {
         ...payload,
         file_id: fileId,
       });
+
       toast.success("Local Popular atualizado com sucesso!");
       navigate(-1);
     } catch (error) {

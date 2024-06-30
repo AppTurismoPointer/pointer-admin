@@ -1,5 +1,6 @@
 import { Pagination, MetaPagination } from "@/types/pagination";
 import { api } from "./api";
+import { Gallery } from "./location.service";
 
 const SPOT_DOMAIN = "spots";
 
@@ -66,6 +67,11 @@ export type SpotInput = {
   type: SpotType;
   description: string;
   price?: number;
+};
+
+export type SpotGalleryInput = {
+  spot_id: string;
+  file_id: string;
 };
 
 const getAll = (
@@ -146,10 +152,35 @@ const remove = (id: string): Promise<void> => {
   return api.delete(`${SPOT_DOMAIN}/${id}`);
 };
 
+const getAllGallery = (
+  spotId: string
+): Promise<{ meta: MetaPagination; data: Gallery[] }> => {
+  return api.get(`${SPOT_DOMAIN}/${spotId}/gallery`);
+};
+
+const createGallery = ({
+  spot_id,
+  file_id,
+}: SpotGalleryInput): Promise<void> => {
+  return api.post(`${SPOT_DOMAIN}/gallery`, {
+    spot_id,
+    file_id,
+  });
+};
+
+const removeGallery = (galleryId: string): Promise<void> => {
+  return api.delete(`${SPOT_DOMAIN}/gallery/${galleryId}`);
+};
+
 export const SpotService = {
   getAll,
   getById,
   create,
   update,
   remove,
+  gallery: {
+    getAll: getAllGallery,
+    create: createGallery,
+    remove: removeGallery,
+  },
 };

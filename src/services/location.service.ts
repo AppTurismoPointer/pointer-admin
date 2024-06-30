@@ -3,6 +3,18 @@ import { api } from "./api";
 
 const LOCATION_DOMAIN = "locations";
 
+export type Gallery = {
+  id: string;
+  location_id: string;
+  file_id: string;
+  preview: string;
+  file: {
+    id: string;
+    name: string;
+  };
+  created_at: string;
+};
+
 export type LocationDTO = {
   id: string;
   name: string;
@@ -35,6 +47,11 @@ export type LocationInput = {
   city_id: string;
   file_id: string;
   description: string;
+};
+
+export type LocationGalleryInput = {
+  location_id: string;
+  file_id: string;
 };
 
 const getAll = (
@@ -80,10 +97,35 @@ const remove = (id: string): Promise<void> => {
   return api.delete(`${LOCATION_DOMAIN}/${id}`);
 };
 
+const getAllGallery = (
+  locationId: string
+): Promise<{ meta: MetaPagination; data: Gallery[] }> => {
+  return api.get(`${LOCATION_DOMAIN}/${locationId}/gallery`);
+};
+
+const createGallery = ({
+  location_id,
+  file_id,
+}: LocationGalleryInput): Promise<void> => {
+  return api.post(`${LOCATION_DOMAIN}/gallery`, {
+    location_id,
+    file_id,
+  });
+};
+
+const removeGallery = (galleryId: string): Promise<void> => {
+  return api.delete(`${LOCATION_DOMAIN}/gallery/${galleryId}`);
+};
+
 export const LocationService = {
   getAll,
   getById,
   create,
   update,
   remove,
+  gallery: {
+    getAll: getAllGallery,
+    create: createGallery,
+    remove: removeGallery,
+  },
 };

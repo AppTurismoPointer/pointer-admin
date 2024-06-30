@@ -42,7 +42,7 @@ export const DefaultLayout = () => {
             {active?.title}
           </h1>
         </div>
-        <Container className="p-6">
+        <Container className="p-6 overflow-y-auto">
           <Outlet />
         </Container>
       </div>

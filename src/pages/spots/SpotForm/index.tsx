@@ -15,9 +15,11 @@ import { useEffect, useState } from "react";
 import {
   PaymentMethodType,
   SpotByIdDTO,
+  SpotService,
   SpotType,
   TransportMethodType,
 } from "@/services/spot.service";
+import { Gallery as GalleryType } from "@/services/location.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { spotSchema } from "./schema";
 import { InputFile } from "@/components/ui/input-file";
@@ -30,6 +32,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { paymentMethods, transportMethods } from "@/constants";
 import { CityDTO, CityService } from "@/services/city.service";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FileService } from "@/services/file.service";
+import { Gallery } from "@/components";
 
 export type SpotInput = {
   name: string;
@@ -54,7 +59,26 @@ interface SpotFormProps {
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
-export function SpotForm({ file, setFile, onSubmit, spot }: SpotFormProps) {
+export function SpotForm(props: SpotFormProps) {
+  return (
+    <Tabs defaultValue="form">
+      <TabsList>
+        <TabsTrigger value="form">Informações</TabsTrigger>
+        <TabsTrigger value="gallery" disabled={!props.spot?.id}>
+          Galeria
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="form" className="p-1">
+        <Form {...props} />
+      </TabsContent>
+      <TabsContent value="gallery" className="p-1">
+        {props.spot?.id && <GalleryForm spotId={props.spot?.id} />}
+      </TabsContent>
+    </Tabs>
+  );
+}
+
+function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
   const navigate = useNavigate();
   const {
     register,
@@ -471,5 +495,73 @@ export function SpotForm({ file, setFile, onSubmit, spot }: SpotFormProps) {
         </div>
       </form>
     </div>
+  );
+}
+
+interface GalleryFormProps {
+  spotId: string;
+}
+
+function GalleryForm({ spotId }: GalleryFormProps) {
+  const [gallery, setGallery] = useState<GalleryType[]>([]);
+  const [galleryError, setGalleryError] = useState("");
+
+  const getGallery = async () => {
+    try {
+      const { data } = await SpotService.gallery.getAll(spotId);
+
+      setGallery(data);
+    } catch (error) {
+      toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
+    }
+  };
+
+  const onSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const currentFile = e.target?.files?.[0] as File;
+      validateFile(currentFile);
+
+      const { id } = await FileService.create({
+        file: currentFile,
+      });
+
+      await SpotService.gallery.create({
+        spot_id: spotId,
+        file_id: id,
+      });
+
+      setGalleryError("");
+
+      toast.success("Imagem cadastrada com sucesso!");
+
+      getGallery();
+    } catch (error) {
+      const err = error as unknown as { message: string };
+      setGalleryError(err?.message);
+    }
+  };
+
+  const deleteLocationGallery = async (galleryId: string) => {
+    try {
+      await SpotService.gallery.remove(galleryId);
+
+      toast.success("Imagem deletada com sucesso!");
+      getGallery();
+    } catch (error) {
+      toast.error((error as string) ?? "Ocorreu um erro ao deletar imagem.");
+    }
+  };
+
+  useEffect(() => {
+    getGallery();
+  }, []);
+
+  return (
+    <Gallery
+      gallery={gallery}
+      error={galleryError}
+      onSubmit={onSubmit}
+      onDelete={deleteLocationGallery}
+    />
   );
 }

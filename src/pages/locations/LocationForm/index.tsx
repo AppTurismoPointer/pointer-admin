@@ -12,7 +12,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { StateDTO, StateService } from "@/services/state.service";
 import { useEffect, useState } from "react";
-import { LocationByIdDTO } from "@/services/location.service";
+import {
+  Gallery as GalleryType,
+  LocationByIdDTO,
+  LocationService,
+} from "@/services/location.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { locationSchema } from "./schema";
 import { InputFile } from "@/components/ui/input-file";
@@ -21,7 +25,9 @@ import { ImageIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { CityDTO, CityService } from "@/services/city.service";
 import { Textarea } from "@/components/ui/textarea";
-import { CompanyService } from "@/services/company.service";
+import { FileService } from "@/services/file.service";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Gallery } from "@/components";
 
 export type LocationInput = {
   name: string;
@@ -38,12 +44,26 @@ interface LocationFormProps {
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
-export function LocationForm({
-  file,
-  setFile,
-  onSubmit,
-  location,
-}: LocationFormProps) {
+export function LocationForm(props: LocationFormProps) {
+  return (
+    <Tabs defaultValue="form">
+      <TabsList>
+        <TabsTrigger value="form">Informações</TabsTrigger>
+        <TabsTrigger value="gallery" disabled={!props.location?.id}>
+          Galeria
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="form" className="p-1">
+        <Form {...props} />
+      </TabsContent>
+      <TabsContent value="gallery" className="p-1">
+        {props.location?.id && <GalleryForm locationId={props.location?.id} />}
+      </TabsContent>
+    </Tabs>
+  );
+}
+
+function Form({ file, setFile, onSubmit, location }: LocationFormProps) {
   const navigate = useNavigate();
   const {
     register,
@@ -157,6 +177,7 @@ export function LocationForm({
           }}
         />
       </div>
+
       <div className="grid grid-cols-2 gap-4">
         <Controller
           control={control}
@@ -221,5 +242,73 @@ export function LocationForm({
         <Button type="submit">Salvar</Button>
       </div>
     </form>
+  );
+}
+
+interface GalleryFormProps {
+  locationId: string;
+}
+
+function GalleryForm({ locationId }: GalleryFormProps) {
+  const [gallery, setGallery] = useState<GalleryType[]>([]);
+  const [galleryError, setGalleryError] = useState("");
+
+  const getGallery = async () => {
+    try {
+      const { data } = await LocationService.gallery.getAll(locationId);
+
+      setGallery(data);
+    } catch (error) {
+      toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
+    }
+  };
+
+  const onSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const currentFile = e.target?.files?.[0] as File;
+      validateFile(currentFile);
+
+      const { id } = await FileService.create({
+        file: currentFile,
+      });
+
+      await LocationService.gallery.create({
+        location_id: locationId,
+        file_id: id,
+      });
+
+      setGalleryError("");
+
+      toast.success("Imagem cadastrada com sucesso!");
+
+      getGallery();
+    } catch (error) {
+      const err = error as unknown as { message: string };
+      setGalleryError(err?.message);
+    }
+  };
+
+  const deleteLocationGallery = async (galleryId: string) => {
+    try {
+      await LocationService.gallery.remove(galleryId);
+
+      toast.success("Imagem deletada com sucesso!");
+      getGallery();
+    } catch (error) {
+      toast.error((error as string) ?? "Ocorreu um erro ao deletar imagem.");
+    }
+  };
+
+  useEffect(() => {
+    getGallery();
+  }, []);
+
+  return (
+    <Gallery
+      gallery={gallery}
+      error={galleryError}
+      onSubmit={onSubmit}
+      onDelete={deleteLocationGallery}
+    />
   );
 }
