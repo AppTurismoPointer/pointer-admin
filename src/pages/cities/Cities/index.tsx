@@ -96,7 +96,7 @@ export function Cities() {
   const handleDelete = async (id: string) => {
     try {
       await CityService.remove(id);
-      toast.success("Cidade deletada com sucesso!");
+      toast.success("Cidade/localidade deletada com sucesso!");
 
       getCities();
       setSearch("");

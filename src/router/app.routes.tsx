@@ -187,7 +187,7 @@ export const appRoutes = [
         path: "states/:stateId",
         element: <Cities />,
         handle: {
-          title: () => "Cidades",
+          title: () => "Cidades/localidades",
           goBack: true,
         },
       },

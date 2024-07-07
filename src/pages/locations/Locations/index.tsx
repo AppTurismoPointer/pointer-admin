@@ -58,7 +58,7 @@ export function Locations() {
     },
     {
       accessorKey: "city",
-      header: "Cidade",
+      header: "Cidade/localidade",
       cell: ({ row }) => {
         return (
           <span className="max-w-[500px] truncate font-medium">

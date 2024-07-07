@@ -22,7 +22,7 @@ export function GalleryForm({ locationId }: GalleryFormProps) {
 
       setGallery(data);
     } catch (error) {
-      toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
+      toast.error((error as string) ?? "Ocorreu um erro ao listar a galeria.");
     }
   };
 

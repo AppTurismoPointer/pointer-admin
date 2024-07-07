@@ -34,7 +34,10 @@ export function AssociatedSpotsForm({ locationId }: AssociatedSpotsFormProps) {
 
       setSpots(data);
     } catch (error) {
-      toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
+      toast.error(
+        (error as string) ??
+          "Ocorreu um erro ao listar Serviços/Estabelecimentos."
+      );
     }
   };
 
@@ -44,7 +47,10 @@ export function AssociatedSpotsForm({ locationId }: AssociatedSpotsFormProps) {
 
       setData(data);
     } catch (error) {
-      toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
+      toast.error(
+        (error as string) ??
+          "Ocorreu um erro ao listar Serviços/Estabelecimentos relacionados."
+      );
     }
   };
 

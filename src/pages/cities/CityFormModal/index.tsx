@@ -47,10 +47,10 @@ export function CityFormModal({
     try {
       if (city?.id) {
         await CityService.update(city?.id, { ...payload, state_id: stateId });
-        toast.success("Cidade atualizada com sucesso!");
+        toast.success("Cidade/localidade atualizada com sucesso!");
       } else {
         await CityService.create({ ...payload, state_id: stateId });
-        toast.success("Cidade cadastrada com sucesso!");
+        toast.success("Cidade/localidade cadastrada com sucesso!");
       }
 
       onClose();
@@ -68,16 +68,20 @@ export function CityFormModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle>{city ? "Atualizar" : "Cadastrar"} cidade</DialogTitle>
+          <DialogTitle>
+            {city ? "Atualizar" : "Cadastrar"} cidade/localidade
+          </DialogTitle>
           <DialogDescription>
-            {city ? "Atualize o nome da cidade." : "Cadastre uma nova cidade."}
+            {city
+              ? "Atualize o nome da cidade/localidade."
+              : "Cadastre uma nova cidade/localidade."}
           </DialogDescription>
         </DialogHeader>
 
         <form id="city-form" onSubmit={handleSubmit(onSubmit)} className="mb-4">
           <Input
             label="Nome"
-            placeholder="Digite o nome da cidade"
+            placeholder="Digite o nome da cidade/localidade"
             error={errors?.name?.message}
             {...register("name")}
           />

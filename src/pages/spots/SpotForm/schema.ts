@@ -3,7 +3,7 @@ import { object, string, number, mixed, bool } from "yup";
 
 export const spotSchema = object({
   name: string().required("Nome é obrigatório"),
-  state_id: string().required("Cidade é obrigatória"),
+  state_id: string().required("Cidade/localidade é obrigatória"),
   city_id: string().required("Estado é obrigatório"),
   category_id: string().required("Categoria é obrigatória"),
   company_id: string().required("Empresa é obrigatória"),

@@ -148,7 +148,9 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
 
       setCities(data);
     } catch (error) {
-      toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
+      toast.error(
+        (error as string) ?? "Ocorreu um erro ao listar cidades/localidades."
+      );
     }
   };
 
@@ -441,14 +443,14 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
             name="city_id"
             render={({ field }) => (
               <div className="flex flex-col gap-2">
-                <Label>Cidade</Label>
+                <Label>Cidade/localidade</Label>
                 <Select
                   onValueChange={field.onChange}
                   value={field.value}
                   disabled={!stateId}
                 >
                   <SelectTrigger error={errors?.city_id?.message}>
-                    <SelectValue placeholder="Selecione a cidade" />
+                    <SelectValue placeholder="Selecione a cidade/localidade" />
                   </SelectTrigger>
                   <SelectContent>
                     {cities.map((city) => (
@@ -512,7 +514,7 @@ function GalleryForm({ spotId }: GalleryFormProps) {
 
       setGallery(data);
     } catch (error) {
-      toast.error((error as string) ?? "Ocorreu um erro ao listar cidades.");
+      toast.error((error as string) ?? "Ocorreu um erro ao listar a galeria.");
     }
   };
 

@@ -7,8 +7,7 @@ export const AuthLayout = () => {
       <div className="sm:flex hidden p-24 justify-center flex-col gap-4 bg-primary">
         <img src={logo} className="w-[280px]" />
         <h1 className="text-white font-medium text-lg max-w-[500px]">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry
+          Bússola de Experiências
         </h1>
       </div>
 
