@@ -44,6 +44,6 @@ export const spotSchema = object({
     .oneOf(Object.values(["ESTABLISHMENT", "SERVICE"]))
     .required("Escolha o tipo do serviço/estabelecimento"),
   description: string()
-    .min(50, "Descrição precisa ter no no mínimo 50 caracteres")
+    .min(5, "Descrição precisa ter no no mínimo 5 caracteres")
     .required("Descrição é obrigatória"),
 });

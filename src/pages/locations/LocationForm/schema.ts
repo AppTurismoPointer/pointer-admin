@@ -6,6 +6,6 @@ export const locationSchema = object({
   city_id: string().required("Cidade/localidade é obrigatória"),
   preview: string().required("Imagem é obrigatória"),
   description: string()
-    .min(50, "Descrição precisa ter no no mínimo 50 caracteres")
+    .min(5, "Descrição precisa ter no no mínimo 5 caracteres")
     .required("Descrição é obrigatória"),
 });
