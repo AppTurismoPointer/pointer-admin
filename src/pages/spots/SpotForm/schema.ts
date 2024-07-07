@@ -30,8 +30,8 @@ export const spotSchema = object({
   }),
   payment_methods: object().shape({
     PIX: bool().default(false),
-    BOLETO: bool().default(false),
-    BANK_TRANSFER: bool().default(false),
+    CREDIT_CARD: bool().default(false),
+    CASH: bool().default(false),
   }),
   transport_methods: object().shape({
     UBER: bool().default(false),
@@ -42,7 +42,7 @@ export const spotSchema = object({
   }),
   type: mixed<SpotType>()
     .oneOf(Object.values(["ESTABLISHMENT", "SERVICE"]))
-    .required("Escolha o tipo do ponto"),
+    .required("Escolha o tipo do serviço/estabelecimento"),
   description: string()
     .min(50, "Descrição precisa ter no no mínimo 50 caracteres")
     .required("Descrição é obrigatória"),

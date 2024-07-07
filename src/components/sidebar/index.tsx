@@ -29,7 +29,11 @@ export function Sidebar() {
               label: "Locais Populares",
               icon: LocateFixed,
             },
-            { path: "/spots", label: "Pontos", icon: MapPin },
+            {
+              path: "/spots",
+              label: "Serviços / Estabelecimentos",
+              icon: MapPin,
+            },
             { path: "/companies", label: "Empresas", icon: Building2 },
             { path: "/users", label: "Usuários", icon: Users },
             { path: "/admin", label: "Usuários Admin", icon: SquareUser },

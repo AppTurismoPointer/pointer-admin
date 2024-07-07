@@ -47,7 +47,7 @@ export function UpdateSpot() {
         transport_methods: transports as TransportMethodType[],
         file_id: fileId,
       });
-      toast.success("Ponto atualizado com sucesso!");
+      toast.success("Serviços / Estabelecimento atualizado com sucesso!");
       navigate(-1);
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao atualizar.");

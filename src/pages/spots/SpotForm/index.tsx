@@ -105,8 +105,8 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
       type: spot?.type,
       payment_methods: {
         PIX: spot?.payment_methods.includes("PIX"),
-        BOLETO: spot?.payment_methods.includes("BOLETO"),
-        BANK_TRANSFER: spot?.payment_methods.includes("BANK_TRANSFER"),
+        CREDIT_CARD: spot?.payment_methods.includes("CREDIT_CARD"),
+        CASH: spot?.payment_methods.includes("CASH"),
       },
       transport_methods: {
         UBER: spot?.transport_methods.includes("UBER"),
@@ -226,7 +226,7 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
         <div className="grid grid-cols-2 gap-4">
           <Input
             label="Nome"
-            placeholder="Digite o nome do ponto"
+            placeholder="Digite o nome do serviço/estabelecimento"
             error={errors?.name?.message}
             {...register("name")}
           />

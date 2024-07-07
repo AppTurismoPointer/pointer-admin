@@ -58,7 +58,7 @@ export function AssociatedSpotsForm({ locationId }: AssociatedSpotsFormProps) {
       });
 
       setError("");
-      toast.success("Ponto relacionado com sucesso!");
+      toast.success("Serviços / Estabelecimento relacionado com sucesso!");
       getAssociates();
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro. Tente novamente.");
@@ -71,10 +71,13 @@ export function AssociatedSpotsForm({ locationId }: AssociatedSpotsFormProps) {
     try {
       await LocationService.associates.remove(id);
 
-      toast.success("Ponto desassociado com sucesso!");
+      toast.success("Serviços / Estabelecimento desassociado com sucesso!");
       getAssociates();
     } catch (error) {
-      toast.error((error as string) ?? "Ocorreu um erro ao desassociar ponto.");
+      toast.error(
+        (error as string) ??
+          "Ocorreu um erro ao desassociar serviço/estabelecimento."
+      );
     }
   };
 
@@ -85,13 +88,13 @@ export function AssociatedSpotsForm({ locationId }: AssociatedSpotsFormProps) {
 
   return (
     <div className="flex flex-col gap-2">
-      <Label>Pontos</Label>
+      <Label>Serviços / Estabelecimentos</Label>
 
       <div className="flex gap-4 items-center">
         <div className="w-full">
           <Select onValueChange={(value) => setSpot(value)} defaultValue={spot}>
             <SelectTrigger error={error}>
-              <SelectValue placeholder="Selecione o ponto" />
+              <SelectValue placeholder="Selecione o serviço/estabelecimento" />
             </SelectTrigger>
             <SelectContent>
               {spots.map((item) => (

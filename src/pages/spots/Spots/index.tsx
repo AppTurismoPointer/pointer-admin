@@ -40,7 +40,7 @@ export function Spots() {
     },
     {
       accessorKey: "name",
-      header: "Ponto",
+      header: "Nome",
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-2">
@@ -124,7 +124,7 @@ export function Spots() {
   const handleDelete = async (id: string) => {
     try {
       await SpotService.remove(id);
-      toast.success("Ponto deletado com sucesso!");
+      toast.success("Serviços / Estabelecimento deletado com sucesso!");
 
       getSpots();
     } catch (error) {

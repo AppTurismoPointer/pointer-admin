@@ -36,7 +36,7 @@ export function CreateSpot() {
         transport_methods: transports as TransportMethodType[],
         file_id: id,
       });
-      toast.success("Ponto cadastrado com sucesso!");
+      toast.success("Serviços / Estabelecimento cadastrado com sucesso!");
       navigate(-1);
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao cadastrar.");

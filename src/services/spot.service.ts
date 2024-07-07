@@ -3,7 +3,7 @@ import { api } from "./api";
 
 const SPOT_DOMAIN = "spots";
 
-export type PaymentMethodType = "PIX" | "BANK_TRANSFER" | "BOLETO";
+export type PaymentMethodType = "PIX" | "CREDIT_CARD" | "CASH";
 export type TransportMethodType = "UBER" | "TAXI" | "BIKE" | "TRANSFER" | "BUS";
 export type SpotType = "ESTABLISHMENT" | "SERVICE";
 

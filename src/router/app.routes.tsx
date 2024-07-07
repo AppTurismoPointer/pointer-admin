@@ -25,14 +25,14 @@ const spotsRoutes = [
     path: "spots",
     element: <States />,
     handle: {
-      title: () => "Pontos",
+      title: () => "Serviços / Estabelecimentos",
     },
   },
   {
     path: "spots/:stateId",
     element: <Cities />,
     handle: {
-      title: () => "Pontos",
+      title: () => "Serviços / Estabelecimentos",
       goBack: true,
     },
   },
@@ -40,7 +40,7 @@ const spotsRoutes = [
     path: "spots/:stateId/:cityId",
     element: <Spots />,
     handle: {
-      title: () => "Pontos",
+      title: () => "Serviços / Estabelecimentos",
       goBack: true,
     },
   },
@@ -48,7 +48,7 @@ const spotsRoutes = [
     path: "spots/:stateId/:cityId/add",
     element: <CreateSpot />,
     handle: {
-      title: () => "Cadastrar ponto",
+      title: () => "Cadastrar serviço/estabelecimento",
       goBack: true,
     },
   },
@@ -56,7 +56,7 @@ const spotsRoutes = [
     path: "spots/:stateId/:cityId/:id",
     element: <UpdateSpot />,
     handle: {
-      title: () => "Atualizar ponto",
+      title: () => "Atualizar serviço/estabelecimento",
       goBack: true,
     },
   },

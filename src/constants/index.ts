@@ -13,8 +13,8 @@ export const regexDigt = /^\d+$/;
 
 export const paymentMethods: Record<PaymentMethodType, string> = {
   PIX: "Pix",
-  BOLETO: "Boleto",
-  BANK_TRANSFER: "Transferência bancária",
+  CREDIT_CARD: "Cartão de crédito",
+  CASH: "Dinheiro",
 };
 
 export const transportMethods: Record<TransportMethodType, string> = {
