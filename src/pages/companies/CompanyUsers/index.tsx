@@ -16,7 +16,7 @@ import { DataTableRowActions } from "@/components/table/components";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function Companies() {
+export function CompanyUsers() {
   const navigate = useNavigate();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
@@ -115,7 +115,6 @@ export function Companies() {
   return (
     <Table
       table={table}
-      onClick={(id) => navigate(id)}
       columnsLength={columns.length}
       onCreate={() => navigate("/companies/add")}
     />

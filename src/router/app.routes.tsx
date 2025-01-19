@@ -13,7 +13,10 @@ import {
   UsersAdmin,
   CreateUserAdmin,
   UpdateUserAdmin,
+  CreateManager,
+  UpdateManager,
   States,
+  Managers,
   Cities,
 } from "@/pages";
 
@@ -104,6 +107,32 @@ const locationsRoutes = [
   },
 ];
 
+const companiesRoutes = [
+  {
+    path: "companies",
+    element: <Companies />,
+    handle: {
+      title: () => "Empresas",
+    },
+  },
+  {
+    path: "companies/add",
+    element: <CreateCompany />,
+    handle: {
+      title: () => "Cadastrar empresa",
+      goBack: true,
+    },
+  },
+  {
+    path: "companies/:id",
+    element: <UpdateCompany />,
+    handle: {
+      title: () => "Atualizar empresa",
+      goBack: true,
+    },
+  },
+];
+
 export const appRoutes = [
   {
     path: "/",
@@ -121,6 +150,29 @@ export const appRoutes = [
         },
       },
       {
+        path: "managers",
+        element: <Managers />,
+        handle: {
+          title: () => "Usuários Empresa",
+        },
+      },
+      {
+        path: "managers/add",
+        element: <CreateManager />,
+        handle: {
+          title: () => "Cadastrar usuário empresa",
+          goBack: true,
+        },
+      },
+      {
+        path: "managers/:id",
+        element: <UpdateManager />,
+        handle: {
+          title: () => "Atualizar usuário empresa",
+          goBack: true,
+        },
+      },
+      {
         path: "categories",
         element: <Categories />,
         handle: {
@@ -129,29 +181,7 @@ export const appRoutes = [
       },
       ...locationsRoutes,
       ...spotsRoutes,
-      {
-        path: "companies",
-        element: <Companies />,
-        handle: {
-          title: () => "Empresas",
-        },
-      },
-      {
-        path: "companies/add",
-        element: <CreateCompany />,
-        handle: {
-          title: () => "Cadastrar empresa",
-          goBack: true,
-        },
-      },
-      {
-        path: "companies/:id",
-        element: <UpdateCompany />,
-        handle: {
-          title: () => "Atualizar empresa",
-          goBack: true,
-        },
-      },
+      ...companiesRoutes,
       {
         path: "admin",
         element: <UsersAdmin />,

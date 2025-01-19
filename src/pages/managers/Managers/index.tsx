@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { companySchema } from "./schema";
+import { managerSchema } from "./schema";
 
 import { useEffect, useState } from "react";
-import { CompanyDTO, CompanyService } from "@/services/company.service";
+import { ManagerService } from "@/services/manager.service";
 import {
   ColumnDef,
   getCoreRowModel,
@@ -11,16 +11,15 @@ import {
 import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
-import { formatPhone } from "@/utils";
 import { DataTableRowActions } from "@/components/table/components";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function Companies() {
+export function Managers() {
   const navigate = useNavigate();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
-  const [companies, setCompanies] = useState<CompanyDTO[]>([]);
+  const [managers, setManagers] = useState<Manager[]>([]);
   const [meta, setMeta] = useState<MetaPagination>({
     page: 0,
     limit: 0,
@@ -30,16 +29,16 @@ export function Companies() {
 
   const handleDelete = async (id: string) => {
     try {
-      await CompanyService.remove(id);
-      toast.success("Empresa deletada com sucesso!");
+      await ManagerService.remove(id);
+      toast.success("Usuário Admnistrativo deletado com sucesso!");
 
-      getCompanies();
+      getUsersAdmin();
     } catch (error) {
       toast.error((error as string) ?? "Ocorreu um erro ao deletar.");
     }
   };
 
-  const columns: ColumnDef<CompanyDTO>[] = [
+  const columns: ColumnDef<Manager>[] = [
     {
       accessorKey: "id",
       header: "ID",
@@ -52,26 +51,32 @@ export function Companies() {
       header: "Nome",
       cell: ({ row }) => {
         return (
-          <div className="flex items-center gap-2">
-            <img
-              src={row.original.preview}
-              alt={row.getValue("name")}
-              className="w-8 h-8 rounded-full object-cover"
-            />
-            <span className="max-w-[500px] truncate font-medium">
-              {row.getValue("name")}
-            </span>
-          </div>
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("name")}
+          </span>
         );
       },
     },
     {
-      accessorKey: "phone",
-      header: "Telefone",
+      accessorKey: "email",
+      header: "E-mail",
       cell: ({ row }) => {
         return (
           <span className="max-w-[500px] truncate font-medium">
-            {formatPhone(row.getValue("phone"))}
+            {row.getValue("email")}
+          </span>
+        );
+      },
+    },
+    {
+      accessorKey: "company",
+      header: "Empresa",
+      cell: ({ row }) => {
+        const company = row.getValue("company") as Manager["company"];
+
+        return (
+          <span className="max-w-[500px] truncate font-medium">
+            {company?.name}
           </span>
         );
       },
@@ -81,7 +86,7 @@ export function Companies() {
       cell: ({ row }) => (
         <DataTableRowActions
           row={row}
-          onEdit={(id: string) => navigate(`/companies/${id}`)}
+          onEdit={(id: string) => navigate(`/admin/${id}`)}
           onDelete={handleDelete}
         />
       ),
@@ -90,7 +95,7 @@ export function Companies() {
 
   const table = useReactTable({
     columns,
-    data: companies,
+    data: managers,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     state: { pagination },
@@ -98,18 +103,18 @@ export function Companies() {
     pageCount: meta.totalPages,
   });
 
-  const getCompanies = async () => {
-    const data = await CompanyService.getAll({
+  const getUsersAdmin = async () => {
+    const data = await ManagerService.getAll({
       page: page + 1,
       limit,
     });
 
-    setCompanies(z.array(companySchema).parse(data.data));
+    setManagers(z.array(managerSchema).parse(data.data));
     setMeta(data.meta);
   };
 
   useEffect(() => {
-    getCompanies();
+    getUsersAdmin();
   }, [page, limit]);
 
   return (
@@ -117,7 +122,7 @@ export function Companies() {
       table={table}
       onClick={(id) => navigate(id)}
       columnsLength={columns.length}
-      onCreate={() => navigate("/companies/add")}
+      onCreate={() => navigate("/managers/add")}
     />
   );
 }

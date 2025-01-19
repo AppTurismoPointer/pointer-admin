@@ -7,3 +7,4 @@ export * from "./companies";
 export * from "./usersAdmin";
 export * from "./states";
 export * from "./cities";
+export * from "./managers";
