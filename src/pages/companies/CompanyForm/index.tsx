@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 
 import { CompanyByIdDTO } from "@/services/company.service";
@@ -9,11 +9,14 @@ import { InputFile } from "@/components/ui/input-file";
 import { validateFile } from "@/utils";
 import { ImageIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export type CompanyInput = {
   name: string;
   phone: string;
   preview: string;
+  accept_reservation: "true" | "false";
 };
 
 interface CompanyFormProps {
@@ -38,12 +41,14 @@ export function CompanyForm({
     setValue,
     setError,
     clearErrors,
+    control,
   } = useForm<CompanyInput>({
     resolver: yupResolver(companySchema),
     defaultValues: {
       name: company?.name,
       phone: company?.phone,
       preview: company?.preview,
+      accept_reservation: company?.accept_reservation ? "true" : "false",
     },
   });
 
@@ -78,6 +83,35 @@ export function CompanyForm({
           error={errors?.name?.message}
           {...register("name")}
         />
+        <div className="space-y-2">
+          <Label htmlFor="option-one">Aceita reserva</Label>
+          <Controller
+            name="accept_reservation"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup
+                value={field.value}
+                onValueChange={field.onChange}
+                className="flex gap-4 items-center"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="true" id="true" />
+                  <Label htmlFor="true">Sim</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="false" id="false" />
+                  <Label htmlFor="false">Não</Label>
+                </div>
+              </RadioGroup>
+            )}
+          />
+
+          {errors?.accept_reservation?.message && (
+            <span className="text-sm text-destructive font-semibold">
+              {errors?.accept_reservation?.message}
+            </span>
+          )}
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <Input

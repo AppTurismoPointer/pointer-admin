@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -30,8 +30,7 @@ export function ManagerForm({ onSubmit, manager }: ManagerFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    watch,
+    control,
   } = useForm<ManagerInput>({
     resolver: yupResolver(!manager ? managerSchema : managerUpdateSchema),
     defaultValues: {
@@ -92,24 +91,27 @@ export function ManagerForm({ onSubmit, manager }: ManagerFormProps) {
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label>Empresa</Label>
-          <Select
-            onValueChange={(value) => setValue("company_id", value)}
-            defaultValue={watch("company_id")}
-          >
-            <SelectTrigger error={errors.company_id?.message}>
-              <SelectValue placeholder="Selecione a empresa" />
-            </SelectTrigger>
-            <SelectContent>
-              {companies?.map((item) => (
-                <SelectItem value={item.id} key={item.id}>
-                  {item.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <Controller
+          control={control}
+          name="company_id"
+          render={({ field }) => (
+            <div className="flex flex-col gap-2">
+              <Label>Empresa</Label>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger error={errors?.company_id?.message}>
+                  <SelectValue placeholder="Selecione a empresa" />
+                </SelectTrigger>
+                <SelectContent>
+                  {companies.map((company) => (
+                    <SelectItem value={company.id} key={company.id}>
+                      {company.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+        />
       </div>
       <div className="flex items-center gap-4 justify-end mt-8">
         <Button variant="ghost" onClick={() => navigate("/admin")}>

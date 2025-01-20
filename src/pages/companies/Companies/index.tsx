@@ -77,6 +77,17 @@ export function Companies() {
       },
     },
     {
+      accessorKey: "accept_reservation",
+      header: "Reservas",
+      cell: ({ row }) => {
+        return (
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("accept_reservation") ? "Sim" : "Não"}
+          </span>
+        );
+      },
+    },
+    {
       id: "actions",
       cell: ({ row }) => (
         <DataTableRowActions
@@ -115,7 +126,7 @@ export function Companies() {
   return (
     <Table
       table={table}
-      onClick={(id) => navigate(id)}
+      onClick={(id) => navigate(`/companies/${id}`)}
       columnsLength={columns.length}
       onCreate={() => navigate("/companies/add")}
     />

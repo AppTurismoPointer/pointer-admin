@@ -30,6 +30,8 @@ export function UpdateCompany() {
       await CompanyService.update(id as string, {
         ...payload,
         file_id: fileId,
+        accept_reservation:
+          payload.accept_reservation === "true" ? true : false,
       });
       toast.success("Empresa atualizada com sucesso!");
       navigate("/companies");

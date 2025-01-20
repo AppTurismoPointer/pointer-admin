@@ -20,6 +20,8 @@ export function CreateCompany() {
       await CompanyService.create({
         ...payload,
         file_id: id,
+        accept_reservation:
+          payload.accept_reservation === "true" ? true : false,
       });
       toast.success("Empresa cadastrada com sucesso!");
       navigate("/companies");
