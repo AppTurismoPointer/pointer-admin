@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/utils";
 import { Label } from "./label";
-import { LucideProps } from "lucide-react";
+import { Eye, EyeOff, LucideProps } from "lucide-react";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -14,7 +14,11 @@ export interface InputProps
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, name, error, className, icon: Icon, ...props }, ref) => {
+  ({ label, name, error, className, type, icon: Icon, ...props }, ref) => {
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const isPassword = type === "password";
+
     return (
       <div className="flex flex-col gap-2">
         {label && <Label htmlFor={name}>{label}</Label>}
@@ -28,6 +32,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         >
           {Icon && <Icon className="size-4 text-zinc-500" />}
           <input
+            type={isPassword && showPassword ? "text" : type}
             className={cn(
               "flex-1 border-0 bg-transparent w-full p-0 text-zinc-900 placeholder-zinc-500 outline-none dark:text-zinc-100",
               className
@@ -36,6 +41,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             name={name}
             {...props}
           />
+
+          {isPassword && (
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="focus:outline-none"
+            >
+              {showPassword ? (
+                <EyeOff className="size-4 text-zinc-500" />
+              ) : (
+                <Eye className="size-4 text-zinc-500" />
+              )}
+            </button>
+          )}
         </div>
 
         {error && (
