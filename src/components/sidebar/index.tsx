@@ -9,7 +9,7 @@ import {
   UserCog,
   Users,
 } from "lucide-react";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/logo-white.svg";
 import { Link } from "react-router-dom";
 import React from "react";
 
