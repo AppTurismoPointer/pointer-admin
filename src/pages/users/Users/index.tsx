@@ -11,7 +11,7 @@ import {
 import { Table } from "@/components";
 import { usePagination } from "@/hooks";
 import { MetaPagination } from "@/types/pagination";
-import { formatPhone } from "@/utils";
+import { formatDate, formatPhone } from "@/utils";
 
 export function Users() {
   const { page, limit, pagination, onPaginationChange } = usePagination();
@@ -61,6 +61,17 @@ export function Users() {
         return (
           <span className="max-w-[500px] truncate font-medium">
             {formatPhone(row.getValue("phone"))}
+          </span>
+        );
+      },
+    },
+    {
+      accessorKey: "created_at",
+      header: "Data de criação",
+      cell: ({ row }) => {
+        return (
+          <span className="max-w-[500px] truncate font-medium">
+            {formatDate(row.getValue("created_at"))}
           </span>
         );
       },
