@@ -1,12 +1,13 @@
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { signInSchema } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "@/store/slices/auth.slice";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { LockIcon, MailIcon } from "lucide-react";
 
 type SignInInput = {
   email: string;
@@ -37,25 +38,49 @@ export function SignIn() {
   if (authenticated) return <Navigate to="/categories" />;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
-      <div className="flex flex-col gap-4">
+    <div className="flex w-full flex-col items-center space-y-5">
+      <div className="space-y-3 text-center">
+        <h2 className="text-xl font-bold text-zinc-800 dark:text-zinc-200">
+          Boas vindas ao Admin Pointer!
+        </h2>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          Realize login para acessar sua conta.
+        </p>
+      </div>
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mx-auto flex w-full max-w-sm flex-1 flex-col gap-4"
+      >
         <Input
           label="E-mail"
           type="email"
+          placeholder="Digite seu e-mail"
           error={errors?.email?.message}
+          icon={MailIcon}
           {...register("email")}
         />
+
         <Input
           label="Senha"
           type="password"
+          placeholder="Digite a sua senha"
           error={errors?.password?.message}
+          icon={LockIcon}
           {...register("password")}
         />
-      </div>
 
-      <Button type="submit" loading={loading} className="w-full">
-        Acessar
-      </Button>
-    </form>
+        {/* <Link
+          to="/reset-password"
+          className="group ml-auto flex items-center text-sm font-semibold text-zinc-600 underline hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+        >
+          Esqueceu sua senha?
+        </Link> */}
+
+        <Button type="submit" loading={loading} className="w-full">
+          Acessar
+        </Button>
+      </form>
+    </div>
   );
 }

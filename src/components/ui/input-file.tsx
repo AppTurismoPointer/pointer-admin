@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Label } from "./label";
 import { buttonVariants } from "./button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import { Input } from "./input";
 
 export interface InputFileProps
