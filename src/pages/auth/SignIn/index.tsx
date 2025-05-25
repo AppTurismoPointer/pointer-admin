@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { signInSchema } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "@/store/slices/auth.slice";
@@ -80,6 +80,20 @@ export function SignIn() {
         <Button type="submit" loading={loading} className="w-full">
           Acessar
         </Button>
+
+        <Button
+          type="button"
+          onClick={() => {
+            window.location.href = "pointer://spots/cm110tp8x000jj3v35qdrfk02";
+          }}
+          className="w-full"
+        >
+          Acessar app teste via button
+        </Button>
+
+        <a href="pointer://spots/cm110tp8x000jj3v35qdrfk02">
+          abrir app via link
+        </a>
       </form>
     </div>
   );
