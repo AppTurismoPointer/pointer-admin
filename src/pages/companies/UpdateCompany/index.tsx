@@ -32,6 +32,7 @@ export function UpdateCompany() {
         file_id: fileId,
         accept_reservation:
           payload.accept_reservation === "true" ? true : false,
+        accept_scheduling: payload.accept_scheduling === "true" ? true : false,
       });
       toast.success("Empresa atualizada com sucesso!");
       navigate("/companies");

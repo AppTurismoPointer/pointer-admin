@@ -17,6 +17,7 @@ export type CompanyInput = {
   phone: string;
   preview: string;
   accept_reservation: "true" | "false";
+  accept_scheduling: "true" | "false";
 };
 
 interface CompanyFormProps {
@@ -49,6 +50,7 @@ export function CompanyForm({
       phone: company?.phone,
       preview: company?.preview,
       accept_reservation: company?.accept_reservation ? "true" : "false",
+      accept_scheduling: company?.accept_scheduling ? "true" : "false",
     },
   });
 
@@ -109,6 +111,35 @@ export function CompanyForm({
           {errors?.accept_reservation?.message && (
             <span className="text-sm text-destructive font-semibold">
               {errors?.accept_reservation?.message}
+            </span>
+          )}
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="scheduling-true">Aceita agendamento</Label>
+          <Controller
+            name="accept_scheduling"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup
+                value={field.value}
+                onValueChange={field.onChange}
+                className="flex gap-4 items-center"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="true" id="scheduling-true" />
+                  <Label htmlFor="scheduling-true">Sim</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="false" id="scheduling-false" />
+                  <Label htmlFor="scheduling-false">Não</Label>
+                </div>
+              </RadioGroup>
+            )}
+          />
+
+          {errors?.accept_scheduling?.message && (
+            <span className="text-sm text-destructive font-semibold">
+              {errors?.accept_scheduling?.message}
             </span>
           )}
         </div>

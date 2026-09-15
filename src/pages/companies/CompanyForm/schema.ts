@@ -9,4 +9,7 @@ export const companySchema = object({
   accept_reservation: mixed<"true" | "false">()
     .oneOf(["true", "false"], "Valor inválido")
     .required("Campo obrigatório"),
+  accept_scheduling: mixed<"true" | "false">()
+    .oneOf(["true", "false"], "Valor inválido")
+    .required("Campo obrigatório"),
 });

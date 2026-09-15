@@ -6,6 +6,7 @@ export const companySchema = z.object({
   phone: z.string(),
   preview: z.string(),
   accept_reservation: z.boolean(),
+  accept_scheduling: z.boolean(),
 });
 
 export type Company = z.infer<typeof companySchema>;

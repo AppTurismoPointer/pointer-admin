@@ -9,6 +9,7 @@ export type CompanyDTO = {
   phone: string;
   preview: string;
   accept_reservation: boolean;
+  accept_scheduling: boolean;
 };
 
 export type CompanyByIdDTO = {
@@ -17,6 +18,7 @@ export type CompanyByIdDTO = {
   phone: string;
   preview: string;
   accept_reservation: boolean;
+  accept_scheduling: boolean;
   file: {
     id: string;
     name: string;
@@ -28,6 +30,7 @@ export type CompanyInput = {
   phone: string;
   file_id: string;
   accept_reservation: boolean;
+  accept_scheduling: boolean;
 };
 
 const getAll = ({
@@ -46,24 +49,27 @@ const create = ({
   file_id,
   phone,
   accept_reservation,
+  accept_scheduling,
 }: CompanyInput): Promise<void> => {
   return api.post(`${COMPANY_DOMAIN}`, {
     name,
     file_id,
     phone,
     accept_reservation,
+    accept_scheduling,
   });
 };
 
 const update = (
   id: string,
-  { name, file_id, phone, accept_reservation }: CompanyInput
+  { name, file_id, phone, accept_reservation, accept_scheduling }: CompanyInput
 ): Promise<void> => {
   return api.put(`${COMPANY_DOMAIN}/${id}`, {
     name,
     file_id,
     phone,
     accept_reservation,
+    accept_scheduling,
   });
 };
 

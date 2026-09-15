@@ -88,6 +88,17 @@ export function Companies() {
       },
     },
     {
+      accessorKey: "accept_scheduling",
+      header: "Agendamentos",
+      cell: ({ row }) => {
+        return (
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("accept_scheduling") ? "Sim" : "Não"}
+          </span>
+        );
+      },
+    },
+    {
       id: "actions",
       cell: ({ row }) => (
         <DataTableRowActions

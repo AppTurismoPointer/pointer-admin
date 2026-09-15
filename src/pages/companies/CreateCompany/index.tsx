@@ -22,6 +22,7 @@ export function CreateCompany() {
         file_id: id,
         accept_reservation:
           payload.accept_reservation === "true" ? true : false,
+        accept_scheduling: payload.accept_scheduling === "true" ? true : false,
       });
       toast.success("Empresa cadastrada com sucesso!");
       navigate("/companies");
