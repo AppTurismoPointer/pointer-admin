@@ -36,8 +36,9 @@ export type CompanyInput = {
 const getAll = ({
   page = 1,
   limit = 10,
+  search = "",
 }: Pagination): Promise<{ meta: MetaPagination; data: CompanyDTO[] }> => {
-  return api.get(`${COMPANY_DOMAIN}?page=${page}&limit=${limit}`);
+  return api.get(`${COMPANY_DOMAIN}?page=${page}&limit=${limit}&search=${search}`);
 };
 
 const getById = (id: string): Promise<{ data: CompanyByIdDTO }> => {

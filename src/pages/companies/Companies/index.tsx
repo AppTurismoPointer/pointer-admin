@@ -20,6 +20,7 @@ export function Companies() {
   const navigate = useNavigate();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
+  const [search, setSearch] = useState("");
   const [companies, setCompanies] = useState<CompanyDTO[]>([]);
   const [meta, setMeta] = useState<MetaPagination>({
     page: 0,
@@ -124,6 +125,7 @@ export function Companies() {
     const data = await CompanyService.getAll({
       page: page + 1,
       limit,
+      search,
     });
 
     setCompanies(z.array(companySchema).parse(data.data));
@@ -132,13 +134,15 @@ export function Companies() {
 
   useEffect(() => {
     getCompanies();
-  }, [page, limit]);
+  }, [page, limit, search]);
 
   return (
     <Table
       table={table}
       onClick={(id) => navigate(`/companies/${id}`)}
       columnsLength={columns.length}
+      search={search}
+      setSearch={setSearch}
       onCreate={() => navigate("/companies/add")}
     />
   );
