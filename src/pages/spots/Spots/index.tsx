@@ -20,6 +20,7 @@ export function Spots() {
   const navigate = useNavigate();
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
+  const [search, setSearch] = useState("");
   const [spots, setSpots] = useState<SpotDTO[]>([]);
   const [meta, setMeta] = useState<MetaPagination>({
     page: 0,
@@ -115,6 +116,7 @@ export function Spots() {
     const data = await SpotService.getAll(cityId as string, {
       page: page + 1,
       limit,
+      search,
     });
 
     setSpots(z.array(spotSchema).parse(data.data));
@@ -134,12 +136,14 @@ export function Spots() {
 
   useEffect(() => {
     getSpots();
-  }, [page, limit]);
+  }, [page, limit, search]);
 
   return (
     <Table
       table={table}
       columnsLength={columns.length}
+      search={search}
+      setSearch={setSearch}
       onCreate={() => navigate(`/spots/${stateId}/${cityId}/add`)}
     />
   );

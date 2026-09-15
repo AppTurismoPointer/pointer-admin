@@ -87,9 +87,11 @@ export type SpotGalleryInput = {
 
 const getAll = (
   cityId: string,
-  { page = 1, limit = 10 }: Pagination
+  { page = 1, limit = 10, search = "" }: Pagination
 ): Promise<{ meta: MetaPagination; data: SpotDTO[] }> => {
-  return api.get(`${SPOT_DOMAIN}?page=${page}&limit=${limit}&cityId=${cityId}`);
+  return api.get(
+    `${SPOT_DOMAIN}?page=${page}&limit=${limit}&cityId=${cityId}&search=${search}`
+  );
 };
 
 const getById = (id: string): Promise<{ data: SpotByIdDTO }> => {
