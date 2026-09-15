@@ -50,6 +50,10 @@ export type SpotInput = {
   transport_methods: Record<TransportMethodType, boolean>;
   payment_methods: Record<PaymentMethodType, boolean>;
   type: SpotType;
+  address_street: string;
+  address_number: string;
+  address_neighborhood: string;
+  address_postal_code: string;
 };
 
 interface SpotFormProps {
@@ -103,6 +107,10 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
       price: spot?.price,
       description: spot?.description,
       type: spot?.type,
+      address_street: spot?.address_street ?? undefined,
+      address_number: spot?.address_number ?? undefined,
+      address_neighborhood: spot?.address_neighborhood ?? undefined,
+      address_postal_code: spot?.address_postal_code ?? undefined,
       payment_methods: {
         PIX: spot?.payment_methods.includes("PIX"),
         CREDIT_CARD: spot?.payment_methods.includes("CREDIT_CARD"),
@@ -388,6 +396,33 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
           error={errors?.description?.message}
           {...register("description")}
         />
+
+        <div className="grid grid-cols-2 gap-4">
+          <Input
+            label="Rua"
+            placeholder="Digite a rua"
+            error={errors?.address_street?.message}
+            {...register("address_street")}
+          />
+          <Input
+            label="Número"
+            placeholder="Digite o número"
+            error={errors?.address_number?.message}
+            {...register("address_number")}
+          />
+          <Input
+            label="Bairro"
+            placeholder="Digite o bairro"
+            error={errors?.address_neighborhood?.message}
+            {...register("address_neighborhood")}
+          />
+          <Input
+            label="CEP"
+            placeholder="00000-000"
+            error={errors?.address_postal_code?.message}
+            {...register("address_postal_code")}
+          />
+        </div>
 
         <div className="grid grid-cols-2 gap-4 items-end">
           <div className="flex items-center gap-4">

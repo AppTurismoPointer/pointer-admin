@@ -39,6 +39,10 @@ export type SpotByIdDTO = {
   transport_methods: TransportMethodType[];
   payment_methods: PaymentMethodType[];
   type: SpotType;
+  address_street: string | null;
+  address_number: string | null;
+  address_neighborhood: string | null;
+  address_postal_code: string;
   category: {
     id: string;
     name: string;
@@ -78,6 +82,10 @@ export type SpotInput = {
   type: SpotType;
   description: string;
   price?: number;
+  address_street: string;
+  address_number: string;
+  address_neighborhood: string;
+  address_postal_code: string;
 };
 
 export type SpotGalleryInput = {
@@ -111,6 +119,10 @@ const create = ({
   type,
   description,
   price,
+  address_street,
+  address_number,
+  address_neighborhood,
+  address_postal_code,
 }: SpotInput): Promise<void> => {
   return api.post(`${SPOT_DOMAIN}`, {
     name,
@@ -125,6 +137,10 @@ const create = ({
     type,
     description,
     price,
+    address_street,
+    address_number,
+    address_neighborhood,
+    address_postal_code,
   });
 };
 
@@ -143,6 +159,10 @@ const update = (
     type,
     description,
     price,
+    address_street,
+    address_number,
+    address_neighborhood,
+    address_postal_code,
   }: SpotInput
 ): Promise<void> => {
   return api.put(`${SPOT_DOMAIN}/${id}`, {
@@ -158,6 +178,10 @@ const update = (
     type,
     description,
     price,
+    address_street,
+    address_number,
+    address_neighborhood,
+    address_postal_code,
   });
 };
 
