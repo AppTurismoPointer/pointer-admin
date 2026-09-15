@@ -42,7 +42,7 @@ export type SpotByIdDTO = {
   address_street: string | null;
   address_number: string | null;
   address_neighborhood: string | null;
-  address_postal_code: string;
+  address_postal_code: string | null;
   category: {
     id: string;
     name: string;
@@ -82,10 +82,10 @@ export type SpotInput = {
   type: SpotType;
   description: string;
   price?: number;
-  address_street: string;
-  address_number: string;
-  address_neighborhood: string;
-  address_postal_code: string;
+  address_street?: string;
+  address_number?: string;
+  address_neighborhood?: string;
+  address_postal_code?: string;
 };
 
 export type SpotGalleryInput = {

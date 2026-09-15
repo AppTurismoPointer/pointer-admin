@@ -23,7 +23,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { spotSchema } from "./schema";
 import { InputFile } from "@/components/ui/input-file";
-import { getLocation, validateFile } from "@/utils";
+import { getAddressByCoordinates, getLocation, validateFile } from "@/utils";
 import { ImageIcon } from "lucide-react";
 import { CategoryDTO, CategoryService } from "@/services/category.service";
 import { useNavigate } from "react-router-dom";
@@ -50,10 +50,10 @@ export type SpotInput = {
   transport_methods: Record<TransportMethodType, boolean>;
   payment_methods: Record<PaymentMethodType, boolean>;
   type: SpotType;
-  address_street: string;
-  address_number: string;
-  address_neighborhood: string;
-  address_postal_code: string;
+  address_street?: string;
+  address_number?: string;
+  address_neighborhood?: string;
+  address_postal_code?: string;
 };
 
 interface SpotFormProps {
@@ -130,6 +130,7 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
   const [cities, setCities] = useState<CityDTO[]>([]);
   const [categories, setCategories] = useState<CategoryDTO[]>([]);
   const [companies, setCompanies] = useState<CompanyDTO[]>([]);
+  const [fetchingAddress, setFetchingAddress] = useState(false);
 
   const name = watch("name");
   const preview = watch("preview");
@@ -192,6 +193,48 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
       toast.error(
         (error as string) ?? "Ocorreu um erro ao buscar localização."
       );
+    }
+  };
+
+  const getAddressFromCoordinates = async () => {
+    const rawLatitude = watch("latitude");
+    const rawLongitude = watch("longitude");
+    const latitude = Number(rawLatitude);
+    const longitude = Number(rawLongitude);
+
+    const isMissing = (value: unknown) =>
+      value == null || `${value}`.trim() === "";
+
+    if (
+      isMissing(rawLatitude) ||
+      isMissing(rawLongitude) ||
+      isNaN(latitude) ||
+      isNaN(longitude)
+    ) {
+      toast.error("Informe a latitude e a longitude para buscar o endereço.");
+      return;
+    }
+
+    setFetchingAddress(true);
+
+    try {
+      const address = await getAddressByCoordinates(latitude, longitude);
+
+      setValue("address_street", address.street);
+      setValue("address_number", address.number);
+      setValue("address_neighborhood", address.neighborhood);
+      setValue("address_postal_code", address.postalCode);
+      clearErrors([
+        "address_street",
+        "address_number",
+        "address_neighborhood",
+        "address_postal_code",
+      ]);
+    } catch (error) {
+      const err = error as { message?: string };
+      toast.error(err?.message ?? "Ocorreu um erro ao buscar o endereço.");
+    } finally {
+      setFetchingAddress(false);
     }
   };
 
@@ -397,31 +440,46 @@ function Form({ file, setFile, onSubmit, spot }: SpotFormProps) {
           {...register("description")}
         />
 
-        <div className="grid grid-cols-2 gap-4">
-          <Input
-            label="Rua"
-            placeholder="Digite a rua"
-            error={errors?.address_street?.message}
-            {...register("address_street")}
-          />
-          <Input
-            label="Número"
-            placeholder="Digite o número"
-            error={errors?.address_number?.message}
-            {...register("address_number")}
-          />
-          <Input
-            label="Bairro"
-            placeholder="Digite o bairro"
-            error={errors?.address_neighborhood?.message}
-            {...register("address_neighborhood")}
-          />
-          <Input
-            label="CEP"
-            placeholder="00000-000"
-            error={errors?.address_postal_code?.message}
-            {...register("address_postal_code")}
-          />
+        <div className="grid grid-cols-2 gap-4 items-end">
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Rua"
+              placeholder="Digite a rua"
+              error={errors?.address_street?.message}
+              {...register("address_street")}
+            />
+            <Input
+              label="Número"
+              placeholder="Digite o número"
+              error={errors?.address_number?.message}
+              {...register("address_number")}
+            />
+          </div>
+
+          <Button
+            type="button"
+            onClick={() => getAddressFromCoordinates()}
+            disabled={fetchingAddress}
+          >
+            {fetchingAddress
+              ? "Buscando endereço..."
+              : "Buscar endereço pela latitude/longitude"}
+          </Button>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Bairro"
+              placeholder="Digite o bairro"
+              error={errors?.address_neighborhood?.message}
+              {...register("address_neighborhood")}
+            />
+            <Input
+              label="CEP"
+              placeholder="00000-000"
+              error={errors?.address_postal_code?.message}
+              {...register("address_postal_code")}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 items-end">

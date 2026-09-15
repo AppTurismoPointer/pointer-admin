@@ -46,10 +46,13 @@ export const spotSchema = object({
   description: string()
     .min(50, "Descrição precisa ter no mínimo 50 caracteres")
     .required("Descrição é obrigatória"),
-  address_street: string().required("Rua é obrigatória"),
-  address_number: string().required("Número é obrigatório"),
-  address_neighborhood: string().required("Bairro é obrigatório"),
+  address_street: string().optional(),
+  address_number: string().optional(),
+  address_neighborhood: string().optional(),
   address_postal_code: string()
-    .matches(/^\d{5}-?\d{3}$/, "CEP inválido")
-    .required("CEP é obrigatório"),
+    .optional()
+    .matches(/^\d{5}-?\d{3}$/, {
+      message: "CEP inválido",
+      excludeEmptyString: true,
+    }),
 });
